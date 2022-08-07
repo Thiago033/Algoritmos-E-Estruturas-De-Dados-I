@@ -19,7 +19,7 @@ int main() {
     pInteiro = &inteiro;
     pCharacter = &character;
     
-    //Print das variaveis no seu valor inicial
+
     printf("Valores das variaveis:\n");
     printf("inteiro: %d\n", inteiro);
     printf("character: %c\n", character);
@@ -28,16 +28,17 @@ int main() {
     printf("pInteiro: %d \n", *pInteiro);
     printf("pCharacter: %c \n", *pCharacter);
 
-    //Modificando as variaveis usando ponteiros
     *pInteiro = 2;
     *pCharacter = 'b';
 
     printf("=============================== \n");
 
-    //Valores das variaveis modificadas pelos ponteiros:
     printf("Valores das variaveis modificadas pelos ponteiros:\n");
     printf("inteiro: %d\n", inteiro);
     printf("character: %c\n", character);
 
+
     return 0;
 }
+
+

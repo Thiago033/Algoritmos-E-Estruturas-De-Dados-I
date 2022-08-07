@@ -35,3 +35,6 @@ void OperacaoMatematica (int num1, int num2, char operacao) {
         printf("Operacao invalida!");
     }
 }
+
+
+
