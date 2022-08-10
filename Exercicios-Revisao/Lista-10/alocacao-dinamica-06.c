@@ -2,21 +2,44 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+char *nomes[10];
+
+
 int main() {
-    char dados[100];
 
-    char *nomes;
+    char dados[20];
+    printf("Digite um nome:\n");
+    scanf("%[^\n]s", dados);
+    setbuf(stdin, NULL);
+    
+    nomes[0] = alocarMemoria(strlen(dados));
+    strcpy(nomes[0], dados);
+    
 
-    for (int i = 0; i < 3; i++) {
-       
-        scanf("%s", dados);
-        nomes[i] = (char *) malloc(strlen(dados) * sizeof(char));
-        strcpy(nomes[i], dados);
+
+
+    printf("%s", nomes[0]);
+
+    return 0;
+}
+
+/*
+==================================================
+alocarMemoria
+
+aloca memoria para a palavra no vetor de strings
+==================================================
+*/
+char* alocarMemoria(int tamanho){
+    char* info = NULL;
+
+    info = (char*) malloc(sizeof(tamanho) * sizeof(char));
+
+    if(info == NULL){
+        printf("ERRO: impossível alocar a quantidade de memória requisitada!");
+        exit(1);
     }
 
-
-    printf("%s\n", nomes[0]);
-    printf("%s\n", nomes[1]);
-    printf("%s\n", nomes[2]);
-    return 0;
-} 
+    return info;
+}
