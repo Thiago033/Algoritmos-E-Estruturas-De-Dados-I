@@ -34,4 +34,6 @@ int main() {
             }
         } while (memint[i++]);
     }
+
+    return 0;
 }
