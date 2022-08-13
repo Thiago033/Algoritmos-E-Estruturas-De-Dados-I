@@ -30,7 +30,7 @@ int main() {
     }
     printf("\n");
 
-    //Printa a tabela, seus indices a esquerda e uma linha vertical
+    //Printa a tabela, seus indices a esquerda, e uma linha vertical
     for (int i = 0; i < LIN; i++) {
         printf("%d |", i);
         for (int j = 0; j < COL; j++) {

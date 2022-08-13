@@ -16,9 +16,6 @@ int main() {
     nomes[0] = alocarMemoria(strlen(dados));
     strcpy(nomes[0], dados);
     
-
-
-
     printf("%s", nomes[0]);
 
     return 0;

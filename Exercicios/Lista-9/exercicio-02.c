@@ -45,7 +45,7 @@ Imprime a matriz
 */
 void imprimirMatriz(int *mat) {
     for (int i = 0; i < 10; i++) {
-        for (j = 0; j < 10; j++) {
+        for (int j = 0; j < 10; j++) {
             printf("%d | ", *mat);
             mat++;
         }

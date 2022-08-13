@@ -1,4 +1,5 @@
 /*
+Exercicio 26:
 
 Implemente uma func¸ao que calcule as raızes de uma equacao do segundo grau do tipo
 Ax2 + Bx + C = 0. Lembrando que:

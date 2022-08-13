@@ -1,11 +1,11 @@
 /*
-34 - Faca um programa que encontre o conjunto de 5 dıgitos consecutivos na sequencia
-abaixo que gere o maior produto:
+34 - Faca um programa que encontre o conjunto de 5 dıgitos consecutivos na sequencia abaixo que gere o maior produto:
 
 Ex:
     string = "1 2 3 4 5 6 7 8 9 9"
     Maior sequencia de 5 numeros seria: "6 7 8 9 9"
     
+    string = "1 2 3 4 5 6 7 8 9 9 9 9 9"
     Maior sequencia possivel de 5 numeros: "9 9 9 9 9"
 */
 
@@ -28,7 +28,8 @@ int main() {
     for (i = 0; i < (tamanhoString-5); i++) {
 
         /*
-            O indice do character do numero na tabela ascii - 48 retorna o numero em decimal
+            O indice do character do numero na tabela ascii menos "48" retorna o numero em decimal
+
             Ex:
                 indice do numero "1" na tabela ascii = 49
                 49 - 48 = 1 (numero em decimal)
@@ -48,6 +49,7 @@ int main() {
         if (maiorSequencia < produtoSequencia) {
             maiorSequencia = produtoSequencia;
 
+            //Armazena os numeros da maior sequencia encontrada
             for (j = 0; j < 5; j++){
                 sequencia[j] = string[i+j];
             }

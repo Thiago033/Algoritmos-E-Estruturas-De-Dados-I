@@ -19,6 +19,8 @@ int main()
     primeiro = 0.46 * PREMIO;
     segundo = 0.32 * PREMIO;
     terceiro = 0.22 * PREMIO;
+    int premioTotal = primeiro + segundo + terceiro;
+    printf("Premiacao total: %d\n", premioTotal);
 
     printf("Primeiro colocado recebe: %d\n", primeiro);
     printf("Segundo colocado recebe: %d\n", segundo);
