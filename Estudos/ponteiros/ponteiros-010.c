@@ -14,8 +14,9 @@ int main() {
     printf("%d\n", *pNum);
     printf("%d\n", **ppNum);
 
-    printf("%d\n", ppNum);
-    printf("%d\n", *ppNum);
+    printf("endereco de ppNum %d\n", ppNum);
+    printf("conteudo de ppNum (endereco de pNum) %d\n", *ppNum);
+    printf("endereco de pNum %d\n", pNum);
 
     return 0;
 }

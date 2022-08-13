@@ -39,9 +39,17 @@ int main() {
     printf("C: ");
     scanf("%f", &c);
 
-    raiz1, raiz2 = raizes(a,b,c, &raiz1, &raiz2);
+    int opcao = raizes(a,b,c, &raiz1, &raiz2);
 
-    printf("raiz1: %.2f , raiz2: %.2f", raiz1, raiz2);
+    if (opcao == 1) {
+        printf("Raiz 1: %.2f, Raiz 2 %.2f", raiz1, raiz2);
+        
+    } else if (opcao == 2) {
+        printf("Raiz: %.2f", raiz1);
+
+    } else {
+        printf("Nao existe raiz real");
+    }
 }
 
 /*
@@ -53,19 +61,19 @@ Ax^2 + Bx + C = 0
 ============================================================
 */
 int raizes(float A,float B,float C,float * X1,float * X2) {
-    float delta;
 
-    delta = sqrt((pow(B,2))-(4*A*C));
+    float delta = sqrt(pow(B,2) - (4*A*C));
 
     *X1 = (-B + delta) / (2*A);
     *X2 = (-B - delta) / (2*A);
 
-    if (delta < 0) {
-        printf("Nao existe raiz real");
-        return 0;
+    if (delta > 0) {
+        return 1;
+        
     } else if (delta == 0) {
-        return *X1;
+        return 2;
+
     } else {
-        return *X1, *X2;
+        return -1;
     }
 }

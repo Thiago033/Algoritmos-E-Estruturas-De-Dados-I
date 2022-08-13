@@ -23,55 +23,42 @@ int main() {
 }
 
 /*
-==============================
+====================================================================================
 troca
 
 troca as vogais de uma frase.
-Ex: 'a' pelo 'u', 'e' pelo 'o', 'i' pelo 'u', 'o' pelo 'a' e o 'u' pelo 'e'.
+Ex: 'a' pelo 'i', 'e' pelo 'o', 'i' pelo 'u', 'o' pelo 'a' e o 'u' pelo 'e'.
 
-==============================
+====================================================================================
 */
 void troca(char *vet) {
 
     int tam = strlen(vet);
-    printf("TAMANHO DA STRING: %d \n", tam);
 
-    for (int i = 0; i < tam; i++)
-    {
-        printf("Letra antes: %c \n", *vet);
+    for (int i = 0; i < tam; i++) {
         switch (*vet)
         {
         case 'a':
-            *vet = 'u';
+            *vet = 'i';
             break;
         case 'e':
             *vet='o';
             break;
         case 'i':
-            *vet='i';
+            *vet='u';
             break;
         case 'o':
-            *vet='e';
-            break;
-        case 'u':
             *vet='a';
             break;
+        case 'u':
+            *vet='e';
+            break;
         }
-
-        printf("Letra depois: %c \n", *vet);
 
         vet++;
     }
 }
 
-/*
-==============================
-imprimeFrase
-
-Imprime a frase
-
-==============================
-*/
 void imprimeFrase(char *vet) {
     char *ptr;
     ptr = vet;

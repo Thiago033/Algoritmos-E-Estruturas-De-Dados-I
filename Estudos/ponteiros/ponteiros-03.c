@@ -46,12 +46,8 @@ int main() {
     diff = pstr - pnum; //INCORRETO: Os ponteiros apontam para tipos diferentes
                         // diff e pnum = INT , pstr = CHAR
 
-    diff = pstr - pnome; /* CORRETO: mas o valor não tem
-                      * necessáriamente o sentido de "numero
-                      *      de bytes entre pn e pstr".
-                      */
+    diff = pstr - pnome; // CORRETO: mas o valor não tem necessáriamente o sentido de "numero de bytes entre pn e pstr".
 
-    
     //pnome recebe o endereco do primeiro elemento de str
     pnome = str;
 
@@ -100,7 +96,6 @@ int main() {
     pval += 4;
 
     //ponteiro que esta em 1004 vai receber mais 3 e ira para o endereco 1007
-
     //pval[3] eh a mesma coisa que *(pval + 3)
     //                             *(1004 + 3)
 

@@ -8,7 +8,7 @@ int main(){
     frases[1] = "2";
     frases[2] = "3";
 
-    printf("%d \n", (int) sizeof(frases));
+    printf("%d \n", sizeof(frases));
 
     puts(frases[0]);
     puts(frases[1]);

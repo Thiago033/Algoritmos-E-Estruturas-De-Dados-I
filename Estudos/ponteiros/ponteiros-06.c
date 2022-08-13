@@ -22,9 +22,9 @@ int main(){
 
 /*
 ============================================================
-    ObtemEndereco
+ObtemEndereco
 
-    Pede ao usuario para digitar seu endereco
+Pede ao usuario para digitar seu endereco
 ============================================================
 */
 void ObtemEndereco(struct endereco *localizacao) {
@@ -37,9 +37,9 @@ void ObtemEndereco(struct endereco *localizacao) {
 
 /*
 ============================================================
-    ImprimeEndereco
+ImprimeEndereco
 
-    Printa no terminal o endereco digitado pelo usuario
+Printa no terminal o endereco digitado pelo usuario
 ============================================================
 */
 void ImprimeEndereco(struct endereco localizacao) {
