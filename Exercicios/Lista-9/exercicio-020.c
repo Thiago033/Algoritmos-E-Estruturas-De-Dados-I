@@ -10,14 +10,18 @@ int negativos(float *vet, int N);
 
 #include <stdio.h>
 #include <math.h>
+#include <stdlib.h>
 
 int negativos(float *vet, int N);
 
 int main() {
-    float *vetor, N, num;
+    float *vetor, num;
+    int N;
 
     printf("Quantos numeros no vetor? \n");
     scanf("%d", &N);
+
+    vetor = malloc(sizeof(float) * N);
 
     for (int i = 0; i < N; i++) {
         printf("Digite o %d numero para o vetor: \n", i+1);
