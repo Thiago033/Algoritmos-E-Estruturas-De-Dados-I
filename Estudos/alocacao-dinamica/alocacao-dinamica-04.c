@@ -13,8 +13,6 @@ int main() {
         p = p1;
         free(p1);
     }
-
-    free(p);
     
     return 0;
 } 
