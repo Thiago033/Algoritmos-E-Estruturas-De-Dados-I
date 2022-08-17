@@ -5,7 +5,7 @@ int main() {
 
     int *pNum;
 
-    pNum= vNum;
+    pNum = vNum;
 
     printf("%d\n", vNum[0]);
     printf("%d\n", *pNum);
