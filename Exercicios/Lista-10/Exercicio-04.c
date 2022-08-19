@@ -3,15 +3,13 @@
 int main()
 {
     int index = 0, i = 0, n,
-        *marks; // this marks pointer hold the base address
-                // of  the block created
+        *marks; //endereco inicial do vetor
+                
     int ans;
     marks = (int*)malloc(sizeof(
-        int)); // dynamically allocate memory using malloc
-    // check if the memory is successfully allocated by
-    // malloc or not?
+        int));
     if (marks == NULL) {
-        printf("memory cannot be allocated");
+        printf("Sem memoria disponivel");
     }
     else {
         // memory has successfully allocated
