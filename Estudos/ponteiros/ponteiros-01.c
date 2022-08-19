@@ -12,7 +12,7 @@ int main()
 
     printf("%d \n", i);
 
-    //Vai no endereco de memoria e pega o valor que esta nesse endereco (nesse caso i = 5)
+    //Vai no endereco de memoria e pega o valor que esta nesse endereco (nesse caso i = 3)
     printf("%d \n", *p);
 
     //Vai no endereco de memoria onde esta a variavel "i" e adiciona 5 ao seu valor

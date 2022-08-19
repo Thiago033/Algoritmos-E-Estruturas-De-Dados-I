@@ -1,16 +1,22 @@
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <math.h>
 
 int main() {
-    int a[3] = {5,9,7};
+    int *vetor1;
+    int *vetor2;
 
-    void *p = &a;
+    int num;
+
+    for (int i = 0; i < 10; i++) {
+        printf("Digite o %d numero para o vetor 1: \n", i+1);
+        scanf("%d", &num);
+        vetor1[i] = num;
+    }
+
+    for (int j = 0; j < 10; j++) {
+        printf("Digite o %d numero para o vetor 2: \n", j+1);
+        scanf("%d", &num);
+        vetor2[j] = num;
+    }
     
-    p = p + sizeof(int);
-
-    printf("%d", *(int *)p);
-
     return 0;
 }
