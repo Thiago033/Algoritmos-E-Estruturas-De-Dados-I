@@ -1,37 +1,51 @@
+/*
+Exercicio 11: 
+    Crie um programa que declare uma estrutura (registro) para o cadastro de alunos.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-struct aluno{
+struct aluno {
     int matricula;
-    char nome[40];
-    int ano_nasc;
+    char sobrenome[25];
+    int anoNascimento;
 };
-typedef struct aluno aluno;
-int main(){
-    int n, i;
-    aluno *ptr;
-    printf("Entre com o numero de registros a serem alocados: ");
-    scanf("%d", &n);
-    /*alocando espaço para n iregistros*/
-    ptr = (aluno*)malloc(n * sizeof(aluno));
 
-    /*armazeando os n registros no espaço alocado*/
-    for(i = 0 ; i < n; i++){
-        printf("Numero de matricula: ");
-        scanf("%d", &ptr[i].matricula);
-        printf("Nome: ");
-        scanf(" %[^\n]", ptr[i].nome);
-        printf("Ano de nascimento: ");
-        scanf("%d", &ptr[i].ano_nasc);
-        printf("\n\n");
+typedef struct aluno aluno;
+
+int main(int argc, char const *argv[]) {
+
+    int qtd;
+
+    aluno *ptrAluno;
+
+    printf("Quantos alunos deseja alocar? ");
+    scanf("%d", &qtd);
+
+    ptrAluno = malloc(qtd * sizeof(aluno));
+
+    for (int i = 0; i < qtd; i++) {
+        printf("Digite a matricula do aluno %d:\n", i+1);
+        scanf("%d", &ptrAluno[i].matricula);
+
+        printf("Digite o sobrenome do aluno %d:\n", i+1);
+        scanf("%s", &ptrAluno[i].sobrenome);
+
+        printf("Digite o ano de nascimento do aluno %d:\n", i+1);
+        scanf("%d", &ptrAluno[i].anoNascimento);
     }
-    /*mostrando os n registros armazenados*/
-    for(i = 0 ; i < n; i++){
-        printf("Numero de matricula %d \n", ptr[i].matricula);
-        printf("Nome: %s \n" , ptr[i].nome);
-        printf("Ano de nascimento: %d\n\n" , ptr[i].ano_nasc);
-    }
-    /*desalocando o espaço utilizado anteriormente*/
-    free(ptr);
+
+    for (int i = 0; i < qtd; i++) {
+        printf("Aluno %d\n", i+1);
+        printf("Matricula %d\n", ptrAluno[i].matricula);
+        printf("Sobrenome %s\n", ptrAluno[i].sobrenome);
+        printf("Ano de nascimento %d\n", ptrAluno[i].anoNascimento);
+        printf("\n");
+    }   
+
+    free(ptrAluno);
+
     return 0;
 }

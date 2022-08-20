@@ -1,58 +1,41 @@
+/*
+Exercicio 9: 
+    Faca um programa que leia uma quantidade qualquer de numeros armazenando-os na ´
+    memoria e pare a leitura quando o usuario entrar um numero negativo. Em seguida, ´
+    imprima o vetor lido. Use a func¸ao REALLOC
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
-int main()
-{
-    int index = 0, i = 0, n,
-        *marks; //endereco inicial do vetor
-                
-    int ans;
-    marks = (int*)malloc(sizeof(
-        int));
-    if (marks == NULL) {
-        printf("Sem memoria disponivel");
-    }
-    else {
-        // memory has successfully allocated
-        printf("Memory has been successfully allocated by "
-               "using malloc\n");
-        printf("\n marks = %pc\n",
-               marks); // print the base or beginning
-                       // address of allocated memory
-        do {
-            printf("\n Enter Marks\n");
-            scanf("%d", &marks[index]); // Get the marks
-            printf("would you like to add more(1/0): ");
-            scanf("%d", &ans);
- 
-            if (ans == 1) {
-                index++;
-                marks = (int*)realloc(
-                    marks,
-                    (index + 1)
-                        * sizeof(
-                            int)); // Dynamically reallocate
-                                   // memory by using realloc
-                // check if the memory is successfully
-                // allocated by realloc or not?
-                if (marks == NULL) {
-                    printf("memory cannot be allocated");
-                }
-                else {
-                    printf("Memory has been successfully "
-                           "reallocated using realloc:\n");
-                    printf(
-                        "\n base address of marks are:%pc",
-                        marks); ////print the base or
-                                ///beginning address of
-                                ///allocated memory
-                }
-            }
-        } while (ans == 1);
-        // print the marks of the students
-        for (i = 0; i <= index; i++) {
-            printf("marks of students %d are: %d\n ", i,
-                   marks[i]);
+
+int main(int argc, char const *argv[]) {
+    
+    int *vetor, opcao=1, index = 0;
+
+    vetor = (int *) malloc(sizeof(int));
+    
+    do {
+        printf("Digite um numero para o vetor:\n");
+        scanf("%d", &vetor[index]);
+
+        printf("Digitar mais um numero? [1]\n");
+        scanf("%d", &opcao);
+
+        if (opcao == 1) {
+
+            index++;
+
+            vetor = (int *) realloc(vetor, (index+1) * sizeof(int));
         }
-        free(marks);
+    } while (opcao == 1);
+
+    printf("Numero digitados: \n");
+
+    for (int i = 0; i <= index; i++) {
+        printf("%d ", vetor[i]);
     }
+    
+    free(vetor);
+
     return 0;
+}
