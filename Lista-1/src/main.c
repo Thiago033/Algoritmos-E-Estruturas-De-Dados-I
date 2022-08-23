@@ -11,7 +11,7 @@ int main() {
 
     nomes = (char*)malloc(sizeof(char));
 
-    if (!nomes){
+    if (!nomes) {
         printf("Erro! Memoria indisponivel!\n");
         exit (1);
     }
