@@ -3,8 +3,8 @@
 #include <stdlib.h>
 
 int menu();
-void adicionarPesssoa(void *pBuffer, char *nome, int *idade, int *telefone);
-void listarPessoas(void *pBuffer, int numeroDePesssoas);
+void adicionarPesssoa(char *nome, int *idade, int *telefone);
+void listarPessoas();
 
 void *pBuffer;
 int numeroDePessoas = 0;
@@ -13,10 +13,10 @@ int main() {
 
     int opcao;
 
-	char *nome;
+	char *nome; 
 	int *idade, *telefone;
 
-	pBuffer = (void*) malloc(sizeof(char) * 10 + 1 + sizeof(int) + sizeof(int));
+	pBuffer = (void*) malloc(sizeof(char) * 11 + sizeof(int) + sizeof(int));
 
     if (!pBuffer) {
         printf("Erro! Memoria indisponivel!\n");
@@ -28,13 +28,13 @@ int main() {
 
         switch (opcao) {
         case 1:
-			adicionarPesssoa(pBuffer, nome, idade, telefone);
-            
+			adicionarPesssoa(nome, idade, telefone);
+            printf("PESSOA ADICIONADA!");
             break;
 
         case 2:
 
-            //listarPessoas(pBuffer, numeroDePessoas);
+            //listarPessoas();
 
             break;
 
@@ -52,7 +52,7 @@ int main() {
 
         case 0:
             printf("Saindo do programa.");
-            exit(0);
+            exit(1);
 
             break;
         
@@ -77,13 +77,14 @@ int menu() {
     int opcao;
 
     printf("Escolha uma opcao abaixo:\n");
-    printf("Adicionar nome: [1]\n");
-    printf("Listar pessoas: [2]\n");
-    printf("Remover nome:   [3]\n");    
-    printf("Sair:           [0]\n");
+    printf("Adicionar pessoa: [1]\n");
+    printf("Listar pessoas:   [2]\n");
+    printf("Remover pessoa:   [3]\n");
+    printf("Buscar pessoa:    [4]\n");
+    printf("Sair:             [0]\n");
+
     fflush(stdin);
     scanf("%d", &opcao);
-
     return opcao;
 }
 
@@ -94,27 +95,33 @@ Adicionar Pesssoa
 Adiciona nome, idade, e telefone as variaveis
 ==============================================
 */
-void adicionarPesssoa(void *pBuffer, char *nome, int *idade, int *telefone) {
+void adicionarPesssoa(char *nome, int *idade, int *telefone) {
+
+    //pBuffer = |    nome 1  | idade 1 | telefone 1 |   nome 2  | idade 2 | telefone 2 |   nome N  | idade N | telefone N  |
+    //          | (char*11)  | (int)   |   (int)    | (char*11) |  (int)  |   (int)    | (char*11) |  (int)  |   (int)     |
+    //          |                 19                |                 19               |                 19                |
+
     if (numeroDePessoas == 0) {
-        nome = pBuffer;
+        //Caso seja a primeira entrada, o ponteiro para "nome" recebe o endereco da primeira posicao do "pBuffer" 
+        nome = pBuffer + sizeof(int);
     } else {
 
-        pBuffer = realloc(pBuffer, 2 * (sizeof(char) * 10 + 1 + sizeof(int) + sizeof(int)));
+        //Tentando dobrar o tamanho do pBuffer
+        pBuffer = (void *) realloc(pBuffer, 2 * (sizeof(char) * 11 + sizeof(int) + sizeof(int)));
 
-        nome = telefone;
+        //a partir da segunda entrada na agenda, "nome" ira receber o endereco da posicao seguinte ao endereco da variavel "telefone".
+        nome = telefone + sizeof(int);
     }
-    
-	idade = nome + sizeof(char) * 10 + 1;
+
+	idade = nome + sizeof(char) * 11;
 	telefone = idade + sizeof(int);
 
 	printf("Digite o nome:\n");
     fflush(stdin);
     char tempNome[10];
     gets(tempNome);
-
-	strcat(tempNome, "\0");
     strcpy(nome,tempNome);
-
+    strcat(tempNome, "\0");
 
     printf("Digite a idade:\n");
     fflush(stdin);
@@ -141,6 +148,6 @@ Listar Pesssoas
 Lista as informacoes das pessoas salvas em pBuffer
 ======================================================
 */
-void listarPessoas(void *pBuffer, int numeroDePesssoas) {
+void listarPessoas() {
 
 }
