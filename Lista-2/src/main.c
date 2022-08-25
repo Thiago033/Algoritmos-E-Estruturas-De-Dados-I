@@ -102,7 +102,7 @@ void adicionarPesssoa(char *nome, int *idade, int *telefone) {
     //          |                 19                |                 19               |                 19                |
 
     if (numeroDePessoas == 0) {
-        //Caso seja a primeira entrada, o ponteiro para "nome" recebe o endereco da primeira posicao do "pBuffer" 
+        //Caso seja a primeira entrada, o ponteiro para "nome" recebe o endereco da primeira posicao do "pBuffer"
         nome = pBuffer + sizeof(int);
     } else {
 
