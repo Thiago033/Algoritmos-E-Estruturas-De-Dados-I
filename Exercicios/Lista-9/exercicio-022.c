@@ -12,22 +12,18 @@
 // int somarVetores(int *vet1, int *vet2, int *somaVetores);
 
 int main() {
-    int *vetor1;
-    int *vetor2;
+    int *vetor1, *vetor2;
     // int *somaVetores;
 
-    int num;
 
     for (int i = 0; i < 10; i++) {
         printf("Digite o %d numero para o vetor 1: \n", i+1);
-        scanf("%d", &num);
-        vetor1[i] = num;
+        scanf("%d", &vetor1[i]);
     }
 
     for (int j = 0; j < 10; j++) {
         printf("Digite o %d numero para o vetor 2: \n", j+1);
-        scanf("%d", &num);
-        vetor2[j] = num;
+        scanf("%d", &vetor2[j]);
     }
     
 

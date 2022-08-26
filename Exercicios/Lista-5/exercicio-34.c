@@ -27,6 +27,12 @@ int main() {
 
     for (i = 0; i < (tamanhoString-5); i++) {
 
+        n1 = string[i]-48;
+        n2 = string[i+1]-48;
+        n3 = string[i+2]-48;
+        n4 = string[i+3]-48;
+        n5 = string[i+4]-48;
+
         /*
             O indice do character do numero na tabela ascii menos "48" retorna o numero em decimal
 
@@ -37,12 +43,6 @@ int main() {
                 indice do numero "9" na tabela ascii = 57
                 57 - 48 = 9 (numero em decimal)
         */
-
-        n1 = string[i]-48;
-        n2 = string[i+1]-48;
-        n3 = string[i+2]-48;
-        n4 = string[i+3]-48;
-        n5 = string[i+4]-48;
 
         produtoSequencia = n1*n2*n3*n4*n5;
 

@@ -24,8 +24,12 @@ int main() {
     printf("Numeros digitados:\n");
 
     for (int j=0; j<i; j++) {
-        printf("%d \n", *numeros);
-        numeros++;
+        printf("%d \n", numeros[j]);
+
+        // ou
+
+        // printf("%d \n", *numeros);
+        // numeros++;
     }
 
     free(numeros);

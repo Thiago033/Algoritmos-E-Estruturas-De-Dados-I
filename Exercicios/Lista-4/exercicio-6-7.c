@@ -17,8 +17,11 @@ int main() {
         scanf("%d", &vet[i]);
     }
     
+    //Inicia os valores das variaveis com o primeiro elemento do vetor.
     maiorElemento = vet[0];
     menorElemento = vet[0];
+    indiceMaiorElemento = vet[0];
+    indiceMenorElemento = vet[0];
 
     for (int i = 0; i < 10; i++) {
         

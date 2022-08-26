@@ -29,21 +29,21 @@ int main() {
 }
 
 int verificaStrings(char *string1, char *string2) {
-    int i, j, auxiliar = 0;
+    int i, j, retorno = 0;
 
     for(i = 0, j = 0; (*(string1 + i)) != '\0'; i++){
+
         while( (*(string1 + i)) == (*(string2 + j)) ){
             i++;
             j++;
 
             if( (*(string2 + j)) == '\n' || (*(string2 + j)) == '\0') {
                 return 1;
-            }
-            else if( (*(string1 + i)) != (*(string2 + j)) ) {
-                auxiliar = 0;
+            } else if( (*(string1 + i)) != (*(string2 + j)) ) {
+                retorno = 0;
             }   
         }
     }
 
-    return auxiliar;
+    return retorno;
 }

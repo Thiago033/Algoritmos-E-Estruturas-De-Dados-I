@@ -26,8 +26,8 @@ int main() {
     for (int i = 0; i < N; i++) {
         printf("Digite o %d numero para o vetor: \n", i+1);
 
-        scanf("%f", &num);
-        vetor[i] = num;
+        scanf("%f", &vetor[i]);
+        // vetor[i] = num;
     }
 
     int numeroDeNegativos = negativos(vetor, N);

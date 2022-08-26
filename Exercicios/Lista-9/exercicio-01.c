@@ -14,8 +14,8 @@ int main() {
     char frase[20];
     
     printf("Digite uma frase: ");
-
     gets(frase);
+    
     troca(frase);
     imprimeFrase(frase);
 
