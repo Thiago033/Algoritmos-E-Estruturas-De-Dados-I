@@ -15,9 +15,8 @@ void PUSH(int data) {
         printf("Stack is full!\n");
         return;
     }
-    
-    top++;
 
+    top++;
     stack_arr[top] = data;
 }
 
@@ -25,11 +24,20 @@ int POP() {
 
     if (top < 0) {
         printf("Stack is empty!\n");
-        exit(1);
+        return 0;
     } else {
         data = stack_arr[top];
         top--;
         return data;
+    }
+}
+
+void printTopStack() {
+    if (top < 0) {
+        printf("Stack is empty!\n");
+        return 0;
+    } else {
+        printf("%d", stack_arr[top]);
     }
 }
 
@@ -39,31 +47,44 @@ void printStack() {
     } 
 }
 
+
+
 int main() {
+    int choice;
 
-    PUSH(1);
-    PUSH(2);
-    PUSH(3);
-    PUSH(4);
-    PUSH(5);
-    data = POP();
-    printf("POP Data: %d\n", data);
-    data = POP();
-    printf("POP Data: %d\n", data);
-    data = POP();
-    printf("POP Data: %d\n", data);
-    data = POP();
-    printf("POP Data: %d\n", data);
-    data = POP();
-    printf("POP Data: %d\n", data);
-    PUSH(10);
-    PUSH(10);
-    PUSH(10);
-    PUSH(10);
-    PUSH(10);
-    POP();
-    PUSH(12);
+    do{
+        
+        printf("Digite uma opcao: \n");
+        scanf("%d", &choice);
 
-    printStack(stack_arr);
+        switch (choice) {
+        case 1:
+            printf("PUSH: \n");
+            scanf("%d", &data);
+            PUSH(data);
+            break;
+        case 2:
+            data = POP();
+            printf("Deleted element is %d\n", data);
+            break;
+        case 3:
+            printTopStack();
+            break;
+        case 4:
+            printStack();
+            break;
+        case 5:
+            
+            break;
+        case 0:
+            printf("Saindo do programa.\n");
+            exit(1);
+            break;
+        default:
+            printf("Wrong choice!");
+            break;
+        }
+    } while (choice != 0);
+
     return 0;
 }
