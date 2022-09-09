@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+const int MAX = 10;
+
 struct Aluno
 {
     int ra;
@@ -8,11 +10,28 @@ struct Aluno
 
 struct Pilha
 {
-    Aluno *alunos;
-    Aluno *topo;
-    Aluno *base;
-    //int limite;
+    Aluno alunos[MAX];
+    int topo;
+    int base;
+    int limite;
 };
+
+bool PUSH(){
+
+}
+
+bool POP(){
+
+}
+
+void Listar(Pilha *pilha){
+    while (!Empty(pilha)) {
+        Aluno aluno;
+        POP(pilha, &aluno);
+        printf("%i - %s", aluno->ra, aluno->nome);
+    }
+}
+
 
 int main() {
 
