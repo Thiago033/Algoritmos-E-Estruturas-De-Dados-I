@@ -65,18 +65,50 @@ struct node* addAtEnd(struct node *ptr, int data){
     return temp;
 }
 
-struct node* addAtBeginning(struct node *head, int data) {
+//1st version
+// struct node* addAtBeginning(struct node *head, int data) {
+//     struct node *temp;
+
+//     temp = (struct node *)malloc(sizeof(struct node));
+//     temp->data = data;
+//     temp->next = head;
+//     head = temp;
+//     return head;
+// }
+
+//2nd version
+void addAtBeginning(struct node **head, int data) {
     struct node *temp;
 
     temp = (struct node *)malloc(sizeof(struct node));
     temp->data = data;
-    temp->next = head;
-    head = temp;
-    return head;
+    temp->next = NULL;
+
+    temp->next = *head;
+    *head = temp;
 }
 
+void addAtCertainPosition(struct node *head, int data, int pos) {
+
+    struct node *temp = (struct node *)malloc(sizeof(struct node));
+    temp->data = data;
+    temp->next = NULL;
+
+    struct node *ptr = head;
+    pos--;
+
+    while (pos != 1) {
+        ptr = ptr->next;
+        pos--;
+    }
+
+    temp->next = ptr->next;
+    ptr->next = temp;
+
+}
+
+
 int main(int argc, char const *argv[]) {
-    
     struct node *head = (struct node *)malloc(sizeof(struct node));
     head->data = 1;
     head->next = NULL;
@@ -95,7 +127,17 @@ int main(int argc, char const *argv[]) {
     ptr = addAtEnd(ptr, 2);
     ptr = addAtEnd(ptr, 3);
     ptr = addAtEnd(ptr, 4);
-    head = addAtBeginning(head, 5);
+
+    //head = addAtBeginning(head, 5);
+    addAtBeginning(&head, 5);
+
+    addAtCertainPosition(head, 10, 4);
+    addAtCertainPosition(head, 11, 5);
+    addAtCertainPosition(head, 12, 2);
+
+    addAtBeginning(&head, 89);
+
+
 
     printf("Nodes counter: %d\n", nodesCounter(head));
     printList(head);
