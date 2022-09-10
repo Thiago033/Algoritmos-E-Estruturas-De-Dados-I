@@ -18,7 +18,7 @@ typedef struct node{
     struct node *next;
 }Node;
 
-Node* push(Node *stack, char valor){
+Node* push(Node *stack, char valor) {
     Node *new = malloc(sizeof(Node));
 
     if(new){
