@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-
 struct node{
     int data;
     struct node *next;
@@ -107,9 +106,98 @@ void addAtCertainPosition(struct node *head, int data, int pos) {
 
 }
 
+struct node* del_first(struct node *head){
+    if (head == NULL) printf("Linked list is empty!");
+    else {
+        struct node *temp = head;
+        head = head->next;
+        free(temp);
+        temp = NULL;
+    }
+    
+    return head;
+}
+
+//1st version
+// struct node* del_last(struct node *head) {
+//     if (head == NULL) printf("Linked list is empty!");
+//     else if (head->next == NULL){
+//         free(head)
+//         head = NULL;
+//     } else {
+//         struct node *temp = head;
+//         struct node *temp2 = head;
+
+//         while (temp->next != NULL) {
+//             temp2 = temp;
+//             temp = temp->next;
+//         }
+
+//         temp2->next = NULL;
+//         free(temp);
+//         temp = NULL;
+//     }
+
+//     return head;
+// }
+
+//2nd version
+struct node* del_last(struct node *head) {
+    if (head == NULL) printf("Linked list is empty!");
+    else if (head->next == NULL){
+        free(head);
+        head = NULL;
+    } else {
+        struct node *temp = head;
+
+        while (temp->next->next != NULL) {
+            temp = temp->next;
+        }
+
+        free(temp->next);
+        temp->next = NULL;
+    }
+
+    return head;
+}
+
+struct node* del_pos(struct node **head, int position) {
+
+    struct node *current = *head;
+    struct node *previous = *head;
+
+    if (*head == NULL) printf("Linked list is empty!");
+    else if (position == 1){
+        *head = current->next;
+        free(current);
+        current = NULL;
+    } else {
+        while (position != 1)
+        {
+            previous = current;
+            current = current->next;
+            position--;
+        }
+        previous->next = current->next;
+        free(current);
+        current = NULL;
+    }
+}
+
+struct node* del_list(struct node *head){
+    struct node *temp = head;
+
+    while (temp != NULL) {
+        temp = temp->next;
+        free(head);
+        head = temp;
+    }
+    
+}
 
 int main(int argc, char const *argv[]) {
     struct node *head = (struct node *)malloc(sizeof(struct node));
+
     head->data = 1;
     head->next = NULL;
 
@@ -137,13 +225,23 @@ int main(int argc, char const *argv[]) {
 
     addAtBeginning(&head, 89);
 
+    head = del_first(head);
 
+    del_pos(&head, 5);
+
+    del_last(head);
+
+    
 
     printf("Nodes counter: %d\n", nodesCounter(head));
     printList(head);
+    printf("head: %d\n", head->data);
 
-    printf("head: %d", head->data);
 
-
+    printf("AFTER DEL_LIST\n");
+    head = del_list(head);
+    printf("Nodes counter: %d\n", nodesCounter(head));
+    printList(head);
+    printf("head: %d\n", head->data);
     return 0;
 }
