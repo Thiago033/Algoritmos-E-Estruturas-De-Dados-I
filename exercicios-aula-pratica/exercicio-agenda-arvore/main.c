@@ -15,99 +15,99 @@ typedef struct node {
 
 } node;
 
-// /*
-// ===================================
-// freeNode
+/*
+===================================
+freeNode
 
-//     free node
-// ===================================
-// */
-// void freeNode(node* node) {
-//     if (node == NULL) return;
+    free node
+===================================
+*/
+void freeNode(node* node) {
+    if (node == NULL) return;
 
-//     freeNode(node->pLeft);
-//     freeNode(node->pRight);
-//     free(node);
+    freeNode(node->pLeft);
+    freeNode(node->pRight);
+    free(node);
 
-//     node = NULL;
-// }
+    node = NULL;
+}
 
-// /*
-// ===================================
-// freeTree
+/*
+===================================
+freeTree
 
-//     free tree
-// ===================================
-// */
-// void freeTree(node** root) {
-//     if (root == NULL) return;
+    free tree
+===================================
+*/
+void freeTree(node** root) {
+    if (root == NULL) return;
 
-//     freeNode(*root);
+    freeNode(*root);
 
-//     free(root);    
-// }
+    free(root);    
+}
 
-// /*
-// ===================================
-// isEmpty
+/*
+===================================
+isEmpty
 
-//     checks if the tree is empty
-//     return 1 if the tree is empty
-//     return 0 if not
-// ===================================
-// */
-// int isEmpty(node** root) {
-//     if (root == NULL) return 1;
+    checks if the tree is empty
+    return 1 if the tree is empty
+    return 0 if not
+===================================
+*/
+int isEmpty(node** root) {
+    if (root == NULL) return 1;
     
-//     if (*root == NULL) return 1;
+    if (*root == NULL) return 1;
 
-//     return 0;
-// }
+    return 0;
+}
 
-// /*
-// ===================================
-// treeHeight
+/*
+===================================
+treeHeight
 
-//     tree height
-// ===================================
-// */
-// int treeHeight(node** root) {
+    tree height
+===================================
+*/
+int treeHeight(node** root) {
 
-//     node* rootPtr = *root;
+    node* rootPtr = *root;
 
-//     if (root == NULL) return 0;
+    if (root == NULL) return 0;
 
-//     if (rootPtr == NULL) return 0;
+    if (rootPtr == NULL) return 0;
 
-//     int leftHeight = treeHeight(&rootPtr->pLeft);
-//     int rightHeight = treeHeight(&rootPtr->pRight);
+    int leftHeight = treeHeight(&rootPtr->pLeft);
+    int rightHeight = treeHeight(&rootPtr->pRight);
 
-//     if (leftHeight > rightHeight) {
-//         return leftHeight + 1;
-//     } else {
-//         return rightHeight + 1;
-//     }
-// }
+    if (leftHeight > rightHeight) {
+        return leftHeight + 1;
+    } else {
+        return rightHeight + 1;
+    }
+}
 
-// /*
-// ===================================
-// totalNodes
+/*
+===================================
+totalNodes
 
-//     total nodes
-// ===================================
-// */
-// int totalNodes(node** root) {
-//     node* rootPtr = *root;
+    total nodes
+===================================
+*/
+int totalNodes(node** root) {
+    node* rootPtr = *root;
 
-//     if (root == NULL) return 0;
+    if (root == NULL) return 0;
 
-//     if (rootPtr == NULL) return 0;
+    if (rootPtr == NULL) return 0;
 
-//     int totalLeft = totalNodes(&rootPtr->pLeft);
-//     int totalRight = totalNodes(&rootPtr->pRight);
+    int totalLeft = totalNodes(&rootPtr->pLeft);
+    int totalRight = totalNodes(&rootPtr->pRight);
 
-//     return (totalLeft + totalRight + 1);
-// }
+    return (totalLeft + totalRight + 1);
+}
 
 /*
 ===================================
@@ -164,23 +164,23 @@ void postOrder(node* root) {
 }
 
 
-// /*
-// =========================================
-// minValueNode
+/*
+=========================================
+minValueNode
 
-//     find minimum value node and return it
-// =========================================
-// */
-// struct node* minValueNode(struct node* node) {
-//     struct node* current = node;
+    find minimum value node and return it
+=========================================
+*/
+struct node* minValueNode(struct node* node) {
+    struct node* current = node;
   
-//     //loop down to find the leftmost leaf
-//     while (current && current->pLeft != NULL) {
-//         current = current->pLeft;
-//     }
+    //loop down to find the leftmost leaf
+    while (current && current->pLeft != NULL) {
+        current = current->pLeft;
+    }
         
-//     return current;
-// }
+    return current;
+}
 
 // /*
 // =========================================
@@ -316,6 +316,7 @@ bool insert(node** root, node* newNode) {
         return insert(&(rootPtr->pRight), newNode);
     }
 }
+
 int main(int argc, char const *argv[]) {
     
     //create root
@@ -327,46 +328,112 @@ int main(int argc, char const *argv[]) {
     }
 
     root = NULL;
-
     //---------------------------------------------------
 
-    char name[30] = "thiago";
-    int age = 1;
-    char phone[30] = "5555";
-    int key = 2;
+    int option, key;
 
-    insert(&root, createNode(name, age, phone, key));
+	int age;
+    char name[30], phone[20];
+	
+    printf ("==========================\n");
+    printf ("1 - name \n");
+    printf ("2 - age \n");
+    printf ("3 - phone \n");
+    printf ("==========================\n");
+    printf ("Key: ");
+    scanf ("%d", &key);
 
-    char name2[30] = "jorge";
-    int age2 = 2;
-    char phone2[30] = "1111";
-    int key2 = 2;
-    insert(&root, createNode(name2, age2, phone2, key2));
+    do {
+        printf ("==========================\n");
+        printf("1) Insert       \n");
+        printf("2) Delete   \n");
+        printf("3) Print       \n");
+        printf("4) Search       \n");
+        printf("5) Quit         \n");
+        printf ("==========================\n");
+        scanf("%d", &option);
+        
+        switch (option) {
 
-    char name3[30] = "anderson";
-    int age3 = 3;
-    char phone3[30] = "2222";
-    int key3 = 2;
-    insert(&root, createNode(name3, age3, phone3, key3));
+        case 1:
+            //INSERT
 
-    // insert(&root, 3);
-    // insert(&root, 7);
-    // insert(&root, 2);
-    // insert(&root, 4);
-    // insert(&root, 1);
+            printf("Insert data:    \n");
+            printf("Name:           \n");
+            scanf("%s", name           );
+            printf("Age:            \n");
+            scanf("%d", &age           );
+            printf("Phone number:   \n");
+            scanf("%s", phone          );
+
+        
+            insert(&root, createNode(name, age, phone, key));
+    
+            break;
+        
+        case 2:
+            //DELETE
+			
+            break;
+
+        case 3:
+            //PRINT
+
+            do {
+                printf ("==========================\n");
+				printf ("Print tipe:    \n");
+				printf ("1 - Post Order  \n");
+				printf ("2 - In Order   \n");
+				printf ("3 - Pre Order \n");
+				scanf ("%d", &option);
+                printf ("==========================\n");
+
+                switch(option) {
+
+                case 1:
+                    printf("Post Order: \n");
+                    postOrder(root);
+                    break;
+
+                case 2:
+                    printf("In Order: \n");
+                    inOrder(root);
+                    break;
+
+                case 3:
+                    printf("Pre Order: \n");
+                    preOrder(root);
+                    break;
+                
+                default:
+                    printf("Invalid option! try again!\n");
+                    break;
+                }
+			} while (option < 1 || option > 3);
+
+            break;
+        
+        case 4:
+            //SEARCH
+
+            break;
+        
+        case 5:
+            //QUIT
+
+            printf("Quit.\n");
+            return 0;
+            break;
+        
+        default:
+            printf("Invalid option! try again!\n");
+            break;
+        }
+
+    } while (option != 0);
+
 
     // removeNode(root, 2);
-
-    //printf("=================");
-    // printf("\nPOST ORDER: \n");
-    // postOrder(root);
-    printf("=================");
-    printf("\nIN ORDER: \n");
-    inOrder(root);
-    printf("=================");
-    // printf("\nPRE ORDER: \n");
-    // preOrder(root);
-    //printf("=================\n");
 
     // printf("\n\nTREE HEIGHT\n");
     // printf("%d\n", treeHeight(&root));
@@ -388,8 +455,6 @@ int main(int argc, char const *argv[]) {
     // printf("%d (%d)\n", 16, find(root, 16));
     // printf("%d (%d)\n", 50, find(root, 50));
     // printf("%d (%d)\n", 5, find(root, 5));
-
-    printf("\nDONE IT!");
 
     return 0;
 }
