@@ -109,53 +109,59 @@ typedef struct node {
 //     return (totalLeft + totalRight + 1);
 // }
 
-// /*
-// ===================================
-// preOrder
+/*
+===================================
+preOrder
 
-//     pre order
-// ===================================
-// */
-// void preOrder(node* root) {
-//     if (root == NULL) return;
+    pre order
+===================================
+*/
+void preOrder(node* root) {
+    if (root == NULL) return;
 
-//     printf("%d, ", root->data);
-//     preOrder(root->pLeft);
-//     preOrder(root->pRight);
-// }
+    printf("=================\n");
+    printf("name: %s\n", root->name);
+    printf("age: %d\n", root->age);
+    printf("phone: %s\n", root->phone);
+    preOrder(root->pLeft);
+    preOrder(root->pRight);
+}
 
-// /*
-// ===================================
-// inOrder
+/*
+===================================
+inOrder
 
-//     in order
-// ===================================
-// */
-// void inOrder(node* root) {
-//     if (root == NULL) return;
+    in order
+===================================
+*/
+void inOrder(node* root) {
+    if (root == NULL) return;
 
-//     inOrder(root->pLeft);
-//     printf("%d, ", root->data);
-//     inOrder(root->pRight);
-// }
+    inOrder(root->pLeft);
+    printf("=================\n");
+    printf("name: %s\n", root->name);
+    printf("age: %d\n", root->age);
+    printf("phone: %s\n", root->phone);
+    inOrder(root->pRight);
+}
 
-// /*
-// ===================================
-// postOrder
+/*
+===================================
+postOrder
 
-//     post order
-// ===================================
-// */
-// void postOrder(node* root) {
-//     if (root == NULL) return;
+    post order
+===================================
+*/
+void postOrder(node* root) {
+    if (root == NULL) return;
 
-//     postOrder(root->pLeft);
-//     postOrder(root->pRight);
-//     printf("%d, ", root->data);
-// }
-
-
-
+    postOrder(root->pLeft);
+    postOrder(root->pRight);
+    printf("=================\n");
+    printf("name: %s\n", root->name);
+    printf("age: %d\n", root->age);
+    printf("phone: %s\n", root->phone);
+}
 
 
 // /*
@@ -299,18 +305,14 @@ bool insert(node** root, node* newNode) {
         return true;
     }
     
-    //value already exists in the tree
-    if (newNode->key == rootPtr->key) {
-        return false;
-    }
 
-    //less than the root value
-    if (newNode->key < rootPtr->key) {
+    //less or equal than the root value
+    if (strcmp(newNode->key, rootPtr->key) <= 0) {
         return insert(&(rootPtr->pLeft), newNode);
     } 
 
     //greater than the root value
-    if (newNode->key > rootPtr->key) {
+    if (strcmp(newNode->key, rootPtr->key) > 0) {
         return insert(&(rootPtr->pRight), newNode);
     }
 }
@@ -329,11 +331,23 @@ int main(int argc, char const *argv[]) {
     //---------------------------------------------------
 
     char name[30] = "thiago";
-    int age = 21;
+    int age = 1;
     char phone[30] = "5555";
     int key = 2;
 
     insert(&root, createNode(name, age, phone, key));
+
+    char name2[30] = "jorge";
+    int age2 = 2;
+    char phone2[30] = "1111";
+    int key2 = 2;
+    insert(&root, createNode(name2, age2, phone2, key2));
+
+    char name3[30] = "anderson";
+    int age3 = 3;
+    char phone3[30] = "2222";
+    int key3 = 2;
+    insert(&root, createNode(name3, age3, phone3, key3));
 
     // insert(&root, 3);
     // insert(&root, 7);
@@ -343,12 +357,16 @@ int main(int argc, char const *argv[]) {
 
     // removeNode(root, 2);
 
+    //printf("=================");
     // printf("\nPOST ORDER: \n");
     // postOrder(root);
-    // printf("\nIN ORDER: \n");
-    // inOrder(root);
+    printf("=================");
+    printf("\nIN ORDER: \n");
+    inOrder(root);
+    printf("=================");
     // printf("\nPRE ORDER: \n");
     // preOrder(root);
+    //printf("=================\n");
 
     // printf("\n\nTREE HEIGHT\n");
     // printf("%d\n", treeHeight(&root));
