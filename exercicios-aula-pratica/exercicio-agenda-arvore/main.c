@@ -19,6 +19,23 @@ typedef struct node {
 
 /*
 ===================================
+isEmpty
+
+    checks if the tree is empty
+    return 1 if the tree is empty
+    return 0 if not
+===================================
+*/
+int isEmpty(node** root) {
+    if (root == NULL) return 1;
+    
+    if (*root == NULL) return 1;
+
+    return 0;
+}
+
+/*
+===================================
 freeNode
 
     free node
@@ -51,19 +68,22 @@ void freeTree(node** root) {
 
 /*
 ===================================
-isEmpty
+totalNodes
 
-    checks if the tree is empty
-    return 1 if the tree is empty
-    return 0 if not
+    total nodes
 ===================================
 */
-int isEmpty(node** root) {
-    if (root == NULL) return 1;
-    
-    if (*root == NULL) return 1;
+int totalNodes(node** root) {
+    node* rootPtr = *root;
 
-    return 0;
+    if (root == NULL) return 0;
+
+    if (rootPtr == NULL) return 0;
+
+    int totalLeft = totalNodes(&rootPtr->pLeft);
+    int totalRight = totalNodes(&rootPtr->pRight);
+
+    return (totalLeft + totalRight + 1);
 }
 
 /*
@@ -108,26 +128,6 @@ int nodeHeight(node* node) {
 
 /*
 ===================================
-totalNodes
-
-    total nodes
-===================================
-*/
-int totalNodes(node** root) {
-    node* rootPtr = *root;
-
-    if (root == NULL) return 0;
-
-    if (rootPtr == NULL) return 0;
-
-    int totalLeft = totalNodes(&rootPtr->pLeft);
-    int totalRight = totalNodes(&rootPtr->pRight);
-
-    return (totalLeft + totalRight + 1);
-}
-
-/*
-===================================
 balanceFactor
 
     balance factor
@@ -150,6 +150,24 @@ int greater(int x, int y) {
     } else {
         return y;
     }
+}
+
+/*
+=========================================
+minValueNode
+
+    find minimum value node and return it
+=========================================
+*/
+struct node* minValueNode(struct node* node) {
+    struct node* current = node;
+  
+    //loop down to find the leftmost leaf
+    while (current && current->pLeft != NULL) {
+        current = current->pLeft;
+    }
+        
+    return current;
 }
 
 /*
@@ -206,68 +224,6 @@ void postOrder(node* root) {
     printf("Phone: %s\n", root->phone);
 }
 
-
-/*
-=========================================
-minValueNode
-
-    find minimum value node and return it
-=========================================
-*/
-struct node* minValueNode(struct node* node) {
-    struct node* current = node;
-  
-    //loop down to find the leftmost leaf
-    while (current && current->pLeft != NULL) {
-        current = current->pLeft;
-    }
-        
-    return current;
-}
-
-/*
-=========================================
-removeNode
-
-    remove a node
-=========================================
-*/
-node* removeNode(node* root, char* key) {
-
-    if (root == NULL) {
-        return root;
-    }
-    
-    //less than the root value
-    if (strcmp(key, root->key) < 0) {
-        root->pLeft = removeNode(root->pLeft, key);
-    
-    //greater than the root value
-    } else if (strcmp(key, root->key) > 0) {
-        root->pRight = removeNode(root->pRight, key);
-  
-    } else {
-        if (root->pLeft == NULL) {
-            struct node* temp = root->pRight;
-            free(root);
-            return temp;
-        }
-        else if (root->pRight == NULL) {
-            struct node* temp = root->pLeft;
-            free(root);
-            return temp;
-        }
-  
-        struct node* temp = minValueNode(root->pRight);
-
-        root->key = temp->key;
-  
-        root->pRight = removeNode(root->pRight, temp->key);
-    }
-
-    return root;
-}
-
 /*
 ===================================
 find
@@ -292,7 +248,11 @@ node* find(node *root, char *key) {
     }
 }
 
-//ROTATIONS
+/*
+===================================
+ROTATIONS
+===================================
+*/
 
 /*
 ===================================
@@ -319,24 +279,6 @@ void rotationLL(node **root){//LL
     *root = node;
 }
 
-// void rotationLL(node** root) {
-//     struct node* rootPtr = *root;
-
-//     struct node* node;
-
-//     node = rootPtr->pLeft;
-
-//     rootPtr->pLeft = node->pRight;
-
-//     node->pRight = rootPtr;
-
-//     rootPtr->height = greater(nodeHeight(rootPtr->pLeft), nodeHeight(rootPtr->pRight)) + 1;
-
-//     node->height = greater(nodeHeight(node->pLeft), rootPtr->height) + 1;
-
-//     rootPtr = node;
-// }
-
 /*
 ===================================
 rotationRR
@@ -362,24 +304,6 @@ void rotationRR(node **root){//RR
     *root = node;
 }
 
-// void rotationRR(node** root) {
-//     struct node* rootPtr = *root;
-
-//     struct node* node;
-
-//     node = rootPtr->pRight;
-
-//     rootPtr->pRight = node->pLeft;
-
-//     node->pLeft = rootPtr;
-
-//     rootPtr->height = greater(nodeHeight(rootPtr->pLeft), nodeHeight(rootPtr->pRight)) + 1;
-
-//     node->height = greater(nodeHeight(node->pRight), rootPtr->height) + 1;
-
-//     rootPtr = node;
-// }
-
 /*
 ===================================
 rotationLR
@@ -387,12 +311,6 @@ rotationLR
     rotation LR
 ===================================
 */
-
-// void rotationLR(node **A){//LR
-//     rotationRR(&(*A)->pLeft);
-//     rotationLL(A);
-// }
-
 void rotationLR(node** root) {
     node* rootPtr = *root;
     rotationRR(&rootPtr->pLeft);
@@ -406,11 +324,6 @@ rotationRL
     rotation RL
 ===================================
 */
-// void rotationRL(node **A){//RL
-//     rotationLL(&(*A)->pRight);
-//     rotationRR(A);
-// }
-
 void rotationRL(node** root) {
     node* rootPtr = *root;
     rotationLL(&rootPtr->pRight);
@@ -419,6 +332,8 @@ void rotationRL(node** root) {
 
 /*
 ===================================
+createNode
+
     create a new node
 ===================================
 */
@@ -438,7 +353,6 @@ node* createNode(char name[], int age, char phone[], int key) {
         newNode->pRight = NULL;
 
         newNode->height = 0;
-
 
         //defining the key
         if (key == 1) {
@@ -519,8 +433,52 @@ bool insert(node** root, node* newNode) {
     return true;
 }
 
+// /*
+// =========================================
+// removeNode
+
+//     remove a node
+// =========================================
+// */
+// node* removeNode(node* root, char* key) {
+
+//     if (root == NULL) {
+//         return root;
+//     }
+    
+//     //less than the root value
+//     if (strcmp(key, root->key) < 0) {
+//         root->pLeft = removeNode(root->pLeft, key);
+    
+//     //greater than the root value
+//     } else if (strcmp(key, root->key) > 0) {
+//         root->pRight = removeNode(root->pRight, key);
+  
+//     } else {
+//         if (root->pLeft == NULL) {
+//             struct node* temp = root->pRight;
+//             free(root);
+//             return temp;
+//         }
+//         else if (root->pRight == NULL) {
+//             struct node* temp = root->pLeft;
+//             free(root);
+//             return temp;
+//         }
+  
+//         struct node* temp = minValueNode(root->pRight);
+
+//         root->key = temp->key;
+  
+//         root->pRight = removeNode(root->pRight, temp->key);
+//     }
+
+//     return root;
+// }
+
 int main(int argc, char const *argv[]) {
     
+    //---------------------------------------------------
     //create root
     node *root = malloc(sizeof(node));
 
@@ -537,6 +495,7 @@ int main(int argc, char const *argv[]) {
 	int age;
     char name[30], phone[20], searchKey[30];
 	
+    //defining key
     do
     {
         printf ("==========================\n");
@@ -584,8 +543,8 @@ int main(int argc, char const *argv[]) {
             // printf("Phone number:   \n");
             // scanf("%s", phone          );
         
-            
-    
+            //insert(&root, createNode(name, age, phone, key));
+
             break;
         
         case 2:
