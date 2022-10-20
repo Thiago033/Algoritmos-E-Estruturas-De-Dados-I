@@ -10,6 +10,8 @@ typedef struct node {
 
     char *key;
 
+    int height;
+
     struct node* pLeft;
     struct node* pRight;
 
@@ -91,6 +93,21 @@ int treeHeight(node** root) {
 
 /*
 ===================================
+nodeHeight
+
+    node height
+===================================
+*/
+int nodeHeight(node* node) {
+    if (node == NULL) {
+        return -1;
+    } else {
+        return node->height;
+    }    
+}
+
+/*
+===================================
 totalNodes
 
     total nodes
@@ -107,6 +124,32 @@ int totalNodes(node** root) {
     int totalRight = totalNodes(&rootPtr->pRight);
 
     return (totalLeft + totalRight + 1);
+}
+
+/*
+===================================
+balanceFactor
+
+    balance factor
+===================================
+*/
+int balanceFactor(node* node) {
+    return labs(nodeHeight(node->pLeft) - nodeHeight(node->pRight));
+}
+
+/*
+============================================
+greater
+
+    return the greater value between x and y
+============================================
+*/
+int greater(int x, int y) {
+    if (x > y) {
+        return x;
+    } else {
+        return y;
+    }
 }
 
 /*
@@ -249,6 +292,131 @@ node* find(node *root, char *key) {
     }
 }
 
+//ROTATIONS
+
+/*
+===================================
+rotationLL
+
+    rotation left
+===================================
+*/
+
+void rotationLL(node **root){//LL
+
+    struct node *node;
+
+    node = (*root)->pLeft;
+
+    (*root)->pLeft = node->pRight;
+
+    node->pRight = *root;
+
+    (*root)->height = greater(nodeHeight((*root)->pLeft),nodeHeight((*root)->pRight)) + 1;
+
+    node->height = greater(nodeHeight(node->pLeft),(*root)->height) + 1;
+    
+    *root = node;
+}
+
+// void rotationLL(node** root) {
+//     struct node* rootPtr = *root;
+
+//     struct node* node;
+
+//     node = rootPtr->pLeft;
+
+//     rootPtr->pLeft = node->pRight;
+
+//     node->pRight = rootPtr;
+
+//     rootPtr->height = greater(nodeHeight(rootPtr->pLeft), nodeHeight(rootPtr->pRight)) + 1;
+
+//     node->height = greater(nodeHeight(node->pLeft), rootPtr->height) + 1;
+
+//     rootPtr = node;
+// }
+
+/*
+===================================
+rotationRR
+
+    rotation right
+===================================
+*/
+
+void rotationRR(node **root){//RR
+
+    struct node *node;
+
+    node = (*root)->pRight;
+
+    (*root)->pRight = node->pLeft;
+
+    node->pLeft = *root;
+
+    (*root)->height = greater(nodeHeight((*root)->pLeft),nodeHeight((*root)->pRight)) + 1;
+
+    node->height = greater(nodeHeight(node->pRight),(*root)->height) + 1;
+    
+    *root = node;
+}
+
+// void rotationRR(node** root) {
+//     struct node* rootPtr = *root;
+
+//     struct node* node;
+
+//     node = rootPtr->pRight;
+
+//     rootPtr->pRight = node->pLeft;
+
+//     node->pLeft = rootPtr;
+
+//     rootPtr->height = greater(nodeHeight(rootPtr->pLeft), nodeHeight(rootPtr->pRight)) + 1;
+
+//     node->height = greater(nodeHeight(node->pRight), rootPtr->height) + 1;
+
+//     rootPtr = node;
+// }
+
+/*
+===================================
+rotationLR
+
+    rotation LR
+===================================
+*/
+
+// void rotationLR(node **A){//LR
+//     rotationRR(&(*A)->pLeft);
+//     rotationLL(A);
+// }
+
+void rotationLR(node** root) {
+    node* rootPtr = *root;
+    rotationRR(&rootPtr->pLeft);
+    rotationLL(root);
+}
+
+/*
+===================================
+rotationRL
+
+    rotation RL
+===================================
+*/
+// void rotationRL(node **A){//RL
+//     rotationLL(&(*A)->pRight);
+//     rotationRR(A);
+// }
+
+void rotationRL(node** root) {
+    node* rootPtr = *root;
+    rotationLL(&rootPtr->pRight);
+    rotationRR(root);
+}
+
 /*
 ===================================
     create a new node
@@ -268,6 +436,8 @@ node* createNode(char name[], int age, char phone[], int key) {
 
         newNode->pLeft = NULL;
         newNode->pRight = NULL;
+
+        newNode->height = 0;
 
 
         //defining the key
@@ -300,24 +470,53 @@ insert
 ===================================
 */
 bool insert(node** root, node* newNode) {
+    int res;
 
-    node *rootPtr = *root;
-
-    if (rootPtr == NULL) {
+    if (*root == NULL) {
         *root = newNode;
         return true;
     }
-    
+
+    node *rootPtr = *root;
 
     //less or equal than the root value
     if (strcmp(newNode->key, rootPtr->key) <= 0) {
-        return insert(&(rootPtr->pLeft), newNode);
+
+        if (insert(&(rootPtr->pLeft), newNode)) {
+
+            if (balanceFactor(rootPtr) >= 2) {
+
+              //if (newNode->key < (*root)->pLeft->key) {
+                res = strcmp(newNode->key, (*root)->pLeft->key);
+                if (res < 0) {
+                    rotationLL(root);
+                } else {
+                    rotationLR(root);
+                }
+            }
+        }
     } 
 
     //greater than the root value
     if (strcmp(newNode->key, rootPtr->key) > 0) {
-        return insert(&(rootPtr->pRight), newNode);
+        
+        if (insert(&(rootPtr->pRight), newNode)) {
+
+            if (balanceFactor(rootPtr) >= 2) {
+
+              //if ((*root)->pRight->key < newNode->key) {
+                if (strcmp((*root)->pRight->key, newNode->key) < 0) {
+                    rotationRR(root);
+                } else {
+                    rotationRL(root);
+                }
+            }
+        }
     }
+
+    rootPtr->height = greater(nodeHeight(rootPtr->pLeft), nodeHeight(rootPtr->pRight)) + 1;
+
+    return true;
 }
 
 int main(int argc, char const *argv[]) {
@@ -349,6 +548,18 @@ int main(int argc, char const *argv[]) {
         scanf ("%d", &key);
     } while (key < 1 || key > 3);
 
+
+    //MANUAL INSERTS =================================
+
+    insert(&root, createNode("a", 27, "an", key));
+    insert(&root, createNode("b", 10, "bn", key));
+    insert(&root, createNode("c", 19, "cn", key));
+    insert(&root, createNode("d", 91, "dn", key));
+    insert(&root, createNode("e", 90, "en", key));
+    insert(&root, createNode("f", 72, "fn", key));
+
+    //MANUAL INSERTS =================================
+
     do {
         printf ("==========================\n");
         printf("1) Insert       \n");
@@ -365,15 +576,15 @@ int main(int argc, char const *argv[]) {
         case 1:
             //INSERT
 
-            printf("Insert data:    \n");
-            printf("Name:           \n");
-            scanf("%s", name           );
-            printf("Age:            \n");
-            scanf("%d", &age           );
-            printf("Phone number:   \n");
-            scanf("%s", phone          );
+            // printf("Insert data:    \n");
+            // printf("Name:           \n");
+            // scanf("%s", name           );
+            // printf("Age:            \n");
+            // scanf("%d", &age           );
+            // printf("Phone number:   \n");
+            // scanf("%s", phone          );
         
-            insert(&root, createNode(name, age, phone, key));
+            
     
             break;
         
