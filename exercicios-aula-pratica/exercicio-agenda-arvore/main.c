@@ -394,7 +394,7 @@ bool insert(node** root, node* newNode) {
     node *rootPtr = *root;
 
     //less or equal than the root value
-    if (strcmp(newNode->key, rootPtr->key) <= 0) {
+    if (strcmp(newNode->key, rootPtr->key) < 0) {
 
         if (insert(&(rootPtr->pLeft), newNode)) {
 
@@ -433,48 +433,93 @@ bool insert(node** root, node* newNode) {
     return true;
 }
 
-// /*
-// =========================================
-// removeNode
+/*
+=========================================
+removeNode
 
-//     remove a node
-// =========================================
-// */
-// node* removeNode(node* root, char* key) {
+    remove a node
+=========================================
+*/
+int removeNode(node** root, char* key) {
 
-//     if (root == NULL) {
-//         return root;
-//     }
-    
-//     //less than the root value
-//     if (strcmp(key, root->key) < 0) {
-//         root->pLeft = removeNode(root->pLeft, key);
-    
-//     //greater than the root value
-//     } else if (strcmp(key, root->key) > 0) {
-//         root->pRight = removeNode(root->pRight, key);
-  
-//     } else {
-//         if (root->pLeft == NULL) {
-//             struct node* temp = root->pRight;
-//             free(root);
-//             return temp;
-//         }
-//         else if (root->pRight == NULL) {
-//             struct node* temp = root->pLeft;
-//             free(root);
-//             return temp;
-//         }
-  
-//         struct node* temp = minValueNode(root->pRight);
+    if (*root == NULL) {
+        printf("This value doesn't exist!\n");
+        return 0;
+    }
 
-//         root->key = temp->key;
-  
-//         root->pRight = removeNode(root->pRight, temp->key);
-//     }
+    int res;
 
-//     return root;
-// }
+    //if(key < (*root)->key) {
+    if (strcmp(key, (*root)->key) < 0) {    
+
+	    if((res = removeNode(&(*root)->pLeft,key)) == 1) {
+
+            if(balanceFactor(*root) >= 2) {
+                if(nodeHeight((*root)->pRight->pLeft) <= nodeHeight((*root)->pRight->pRight)) {
+                    rotationRR(root);
+                } else {
+                    rotationLR(root);
+                }
+            }
+	    }
+	}
+
+	//if((*root)->key < key) {
+    if (strcmp((*root)->key, key) < 0) { 
+
+	    if((res = removeNode(&(*root)->pRight, key)) == 1) {
+
+            if(balanceFactor(*root) >= 2) {
+                if(nodeHeight((*root)->pLeft->pRight) <= nodeHeight((*root)->pLeft->pLeft) ) {
+                    rotationLL(root);
+                } else {
+                    rotationLR(root);
+                }
+            }
+	    }
+	}
+
+	//if((*root)->key == key) {
+    if (strcmp((*root)->key, key) == 0) {
+
+	    if(((*root)->pLeft == NULL || (*root)->pRight == NULL)) {
+
+			struct node *oldNode = (*root);
+
+			if((*root)->pLeft != NULL) {
+                *root = (*root)->pLeft;
+            } else {
+                *root = (*root)->pRight;
+            }
+
+			free(oldNode);
+
+		} else {
+
+			struct node* temp = minValueNode((*root)->pRight);
+
+			(*root)->key = temp->key;
+
+			removeNode(&(*root)->pRight, (*root)->key);
+
+            if(balanceFactor(*root) >= 2){
+				if(nodeHeight((*root)->pLeft->pRight) <= nodeHeight((*root)->pLeft->pLeft)) {
+					rotationLL(root);
+                } else {
+					rotationLR(root);
+                }
+			}
+		}
+        
+		if (*root != NULL)
+            (*root)->height = greater(nodeHeight((*root)->pLeft),nodeHeight((*root)->pRight)) + 1;
+		return 1;
+	}
+
+	(*root)->height = greater(nodeHeight((*root)->pLeft),nodeHeight((*root)->pRight)) + 1;
+
+	return res;
+}
 
 int main(int argc, char const *argv[]) {
     
@@ -508,16 +553,22 @@ int main(int argc, char const *argv[]) {
     } while (key < 1 || key > 3);
 
 
-    //MANUAL INSERTS =================================
+    //================================= MANUAL INSERTS =================================
 
     insert(&root, createNode("a", 27, "an", key));
-    insert(&root, createNode("b", 10, "bn", key));
+    insert(&root, createNode("b", 11, "bn", key));
     insert(&root, createNode("c", 19, "cn", key));
     insert(&root, createNode("d", 91, "dn", key));
     insert(&root, createNode("e", 90, "en", key));
     insert(&root, createNode("f", 72, "fn", key));
 
-    //MANUAL INSERTS =================================
+    removeNode(&root, "11");
+    removeNode(&root, "72");
+
+    insert(&root, createNode("g", 10, "gn", key));
+    insert(&root, createNode("h", 93, "hn", key));
+
+    //================================= MANUAL INSERTS =================================
 
     do {
         printf ("==========================\n");
@@ -543,7 +594,7 @@ int main(int argc, char const *argv[]) {
             // printf("Phone number:   \n");
             // scanf("%s", phone          );
         
-            //insert(&root, createNode(name, age, phone, key));
+            // insert(&root, createNode(name, age, phone, key));
 
             break;
         
@@ -558,9 +609,7 @@ int main(int argc, char const *argv[]) {
             printf("Type the key: \n");
             scanf("%s", searchKey);
 
-            node* removedNode = removeNode(root, searchKey);
-
-            if (removedNode != NULL) {
+            if (removeNode(&root, searchKey)) {
                 printf("Data removed!\n");
             } else {
                 printf("Data not founded!\n");
