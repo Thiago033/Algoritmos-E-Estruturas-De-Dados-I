@@ -119,10 +119,10 @@ preOrder
 void preOrder(node* root) {
     if (root == NULL) return;
 
-    printf("=================\n");
-    printf("name: %s\n", root->name);
-    printf("age: %d\n", root->age);
-    printf("phone: %s\n", root->phone);
+    printf("==========================\n");
+    printf("Name: %s\n", root->name);
+    printf("Age: %d\n", root->age);
+    printf("Phone: %s\n", root->phone);
     preOrder(root->pLeft);
     preOrder(root->pRight);
 }
@@ -138,10 +138,10 @@ void inOrder(node* root) {
     if (root == NULL) return;
 
     inOrder(root->pLeft);
-    printf("=================\n");
-    printf("name: %s\n", root->name);
-    printf("age: %d\n", root->age);
-    printf("phone: %s\n", root->phone);
+    printf("==========================\n");
+    printf("Name: %s\n", root->name);
+    printf("Age: %d\n", root->age);
+    printf("Phone: %s\n", root->phone);
     inOrder(root->pRight);
 }
 
@@ -157,10 +157,10 @@ void postOrder(node* root) {
 
     postOrder(root->pLeft);
     postOrder(root->pRight);
-    printf("=================\n");
-    printf("name: %s\n", root->name);
-    printf("age: %d\n", root->age);
-    printf("phone: %s\n", root->phone);
+    printf("==========================\n");
+    printf("Name: %s\n", root->name);
+    printf("Age: %d\n", root->age);
+    printf("Phone: %s\n", root->phone);
 }
 
 
@@ -230,19 +230,20 @@ find
     find a node in the tree
 ===================================
 */
-bool find(node *root, int key) {
-    if (root == NULL) return false;
+node* find(node *root, char *key) {
 
-    if (root->data == key) return true;
+    if (root == NULL) return NULL;
+
+   if (strcmp(key, root->key) == 0) return root;
+
+    //less or equal than the root value
+    if (strcmp(key, root->key) < 0) {
+        return find(root->pLeft, key);
+    } 
 
     //greater than the root value
-    if (key > root->data) {
+    if (strcmp(key, root->key) > 0) {
         return find(root->pRight, key);
-    }
-
-    //less than the root value
-    if (key < root->data) {
-        return find(root->pLeft, key);
     }
 }
 
@@ -255,8 +256,8 @@ node* createNode(char name[], int age, char phone[], int key) {
 
     node *newNode = malloc(sizeof(node));
 
-    newNode->name = (char *) (malloc(sizeof(name)));
-    newNode->phone = (char *) (malloc(sizeof(phone)));
+    newNode->name = (malloc(sizeof(name)));
+    newNode->phone = (malloc(sizeof(phone)));
 
     if (newNode != NULL) {
         strcpy(newNode->name, name);
@@ -333,7 +334,7 @@ int main(int argc, char const *argv[]) {
     int option, key;
 
 	int age;
-    char name[30], phone[20];
+    char name[30], phone[20], searchKey[30];
 	
     printf ("==========================\n");
     printf ("1 - name \n");
@@ -415,7 +416,23 @@ int main(int argc, char const *argv[]) {
             break;
         
         case 4:
-            //SEARCH
+            printf("Type the key: \n");
+            scanf("%s", searchKey);
+
+            node* searchNode = find(root, searchKey);
+
+            if (searchNode != NULL) {
+                printf("==========================\n");
+                printf("Data founded:\n");
+                printf("Name: %s\n", searchNode->name);
+                printf("Age: %d\n", searchNode->age);
+                printf("Phone: %s\n", searchNode->phone);
+                printf("==========================\n");
+            } else {
+                printf("Data not found!\n");
+            }
+            
+
 
             break;
         
@@ -428,7 +445,7 @@ int main(int argc, char const *argv[]) {
             printf("%d\n", totalNodes(&root));
 
             printf("MINIMUM NODE\n");
-            if (isEmpty(root)) {
+            if (isEmpty(&root)) {
                 printf("Tree is empty!\n\n");
             } else {
                 node* minimumNode = minValueNode(root);
@@ -460,13 +477,6 @@ int main(int argc, char const *argv[]) {
 
 
     // removeNode(root, 2);
-
-    
-
-    // printf("FINDING ON TREE: (0) FALSE | (1) TRUE\n");
-    // printf("%d (%d)\n", 16, find(root, 16));
-    // printf("%d (%d)\n", 50, find(root, 50));
-    // printf("%d (%d)\n", 5, find(root, 5));
 
     return 0;
 }
