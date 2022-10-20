@@ -338,13 +338,16 @@ int main(int argc, char const *argv[]) {
 	int age;
     char name[30], phone[20], searchKey[30];
 	
-    printf ("==========================\n");
-    printf ("1 - name \n");
-    printf ("2 - age \n");
-    printf ("3 - phone \n");
-    printf ("==========================\n");
-    printf ("Key: ");
-    scanf ("%d", &key);
+    do
+    {
+        printf ("==========================\n");
+        printf ("1 - name \n");
+        printf ("2 - age \n");
+        printf ("3 - phone \n");
+        printf ("==========================\n");
+        printf ("Key: ");
+        scanf ("%d", &key);
+    } while (key < 1 || key > 3);
 
     do {
         printf ("==========================\n");
@@ -459,8 +462,6 @@ int main(int argc, char const *argv[]) {
             } else {
                 printf("Data not found!\n");
             }
-            
-
 
             break;
         
