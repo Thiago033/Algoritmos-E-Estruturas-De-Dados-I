@@ -182,46 +182,48 @@ struct node* minValueNode(struct node* node) {
     return current;
 }
 
-// /*
-// =========================================
-// removeNode
+/*
+=========================================
+removeNode
 
-//     remove a node
-// =========================================
-// */
-// node* removeNode(node* root, int key) {
+    remove a node
+=========================================
+*/
+node* removeNode(node* root, char* key) {
 
-//     if (root == NULL) {
-//         return root;
-//     }
+    if (root == NULL) {
+        return root;
+    }
+    
+    //less than the root value
+    if (strcmp(key, root->key) < 0) {
+        root->pLeft = removeNode(root->pLeft, key);
+    
+    //greater than the root value
+    } else if (strcmp(key, root->key) > 0) {
+        root->pRight = removeNode(root->pRight, key);
   
-//     if (key < root->data) {
-//         root->pLeft = removeNode(root->pLeft, key);
+    } else {
+        if (root->pLeft == NULL) {
+            struct node* temp = root->pRight;
+            free(root);
+            return temp;
+        }
+        else if (root->pRight == NULL) {
+            struct node* temp = root->pLeft;
+            free(root);
+            return temp;
+        }
   
-//     } else if (key > root->data) {
-//         root->pRight = removeNode(root->pRight, key);
-  
-//     } else {
-//         if (root->pLeft == NULL) {
-//             struct node* temp = root->pRight;
-//             free(root);
-//             return temp;
-//         }
-//         else if (root->pRight == NULL) {
-//             struct node* temp = root->pLeft;
-//             free(root);
-//             return temp;
-//         }
-  
-//         struct node* temp = minValueNode(root->pRight);
+        struct node* temp = minValueNode(root->pRight);
 
-//         root->data = temp->data;
+        root->key = temp->key;
   
-//         root->pRight = removeNode(root->pRight, temp->data);
-//     }
+        root->pRight = removeNode(root->pRight, temp->key);
+    }
 
-//     return root;
-// }
+    return root;
+}
 
 /*
 ===================================
@@ -236,7 +238,7 @@ node* find(node *root, char *key) {
 
    if (strcmp(key, root->key) == 0) return root;
 
-    //less or equal than the root value
+    //less than the root value
     if (strcmp(key, root->key) < 0) {
         return find(root->pLeft, key);
     } 
@@ -367,7 +369,6 @@ int main(int argc, char const *argv[]) {
             scanf("%d", &age           );
             printf("Phone number:   \n");
             scanf("%s", phone          );
-
         
             insert(&root, createNode(name, age, phone, key));
     
@@ -375,11 +376,32 @@ int main(int argc, char const *argv[]) {
         
         case 2:
             //DELETE
+
+            if (isEmpty(&root)) {
+                printf("Tree is empty!\n");
+                break;
+            }
+
+            printf("Type the key: \n");
+            scanf("%s", searchKey);
+
+            node* removedNode = removeNode(root, searchKey);
+
+            if (removedNode != NULL) {
+                printf("Data removed!\n");
+            } else {
+                printf("Data not founded!\n");
+            }
 			
             break;
 
         case 3:
             //PRINT
+            
+            if (isEmpty(&root)) {
+                printf("Tree is empty!\n");
+                break;
+            }
 
             do {
                 printf ("==========================\n");
@@ -416,6 +438,12 @@ int main(int argc, char const *argv[]) {
             break;
         
         case 4:
+            //SEARCH
+            if (isEmpty(&root)) {
+                printf("Tree is empty!\n");
+                break;
+            }
+
             printf("Type the key: \n");
             scanf("%s", searchKey);
 
@@ -474,9 +502,6 @@ int main(int argc, char const *argv[]) {
         }
 
     } while (option != 0);
-
-
-    // removeNode(root, 2);
 
     return 0;
 }
