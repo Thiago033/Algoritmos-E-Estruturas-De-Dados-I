@@ -235,7 +235,7 @@ node* find(node *root, char *key) {
 
     if (root == NULL) return NULL;
 
-   if (strcmp(key, root->key) == 0) return root;
+    if (strcmp(key, root->key) == 0) return root;
 
     //less than the root value
     if (strcmp(key, root->key) < 0) {
@@ -246,6 +246,8 @@ node* find(node *root, char *key) {
     if (strcmp(key, root->key) > 0) {
         return find(root->pRight, key);
     }
+
+    return NULL;
 }
 
 /*
@@ -341,8 +343,8 @@ node* createNode(char name[], int age, char phone[], int key) {
 
     node *newNode = malloc(sizeof(node));
 
-    newNode->name = (malloc(sizeof(name)));
-    newNode->phone = (malloc(sizeof(phone)));
+    newNode->name = malloc(strlen(name));
+    newNode->phone = malloc(strlen(phone));
 
     if (newNode != NULL) {
         strcpy(newNode->name, name);
@@ -356,7 +358,7 @@ node* createNode(char name[], int age, char phone[], int key) {
 
         //defining the key
         if (key == 1) {
-            newNode->key = (char *) malloc(sizeof(name));
+            newNode->key = (char *) malloc(strlen(name));
 
             strcpy(newNode->key, name);
 
@@ -366,7 +368,7 @@ node* createNode(char name[], int age, char phone[], int key) {
             sprintf(newNode->key, "%d", age);
 
         } else {
-            newNode->key = (char *) malloc(sizeof(phone));
+            newNode->key = (char *) malloc(strlen(phone));
 
             strcpy(newNode->key, phone);
 
