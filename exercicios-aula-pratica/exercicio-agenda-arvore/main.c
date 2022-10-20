@@ -223,28 +223,28 @@ struct node* minValueNode(struct node* node) {
 //     return root;
 // }
 
-// /*
-// ===================================
-// find
+/*
+===================================
+find
 
-//     find a node in the tree
-// ===================================
-// */
-// bool find(node *root, int key) {
-//     if (root == NULL) return false;
+    find a node in the tree
+===================================
+*/
+bool find(node *root, int key) {
+    if (root == NULL) return false;
 
-//     if (root->data == key) return true;
+    if (root->data == key) return true;
 
-//     //greater than the root value
-//     if (key > root->data) {
-//         return find(root->pRight, key);
-//     }
+    //greater than the root value
+    if (key > root->data) {
+        return find(root->pRight, key);
+    }
 
-//     //less than the root value
-//     if (key < root->data) {
-//         return find(root->pLeft, key);
-//     }
-// }
+    //less than the root value
+    if (key < root->data) {
+        return find(root->pLeft, key);
+    }
+}
 
 /*
 ===================================
@@ -346,10 +346,11 @@ int main(int argc, char const *argv[]) {
     do {
         printf ("==========================\n");
         printf("1) Insert       \n");
-        printf("2) Delete   \n");
-        printf("3) Print       \n");
+        printf("2) Delete       \n");
+        printf("3) Print        \n");
         printf("4) Search       \n");
-        printf("5) Quit         \n");
+        printf("5) Tree Stats   \n");
+        printf("6) Quit         \n");
         printf ("==========================\n");
         scanf("%d", &option);
         
@@ -419,6 +420,31 @@ int main(int argc, char const *argv[]) {
             break;
         
         case 5:
+            //PRINT TREE STATS
+            printf("\nTREE HEIGHT\n");
+            printf("%d\n", treeHeight(&root));
+
+            printf("TOTAL NODES\n");
+            printf("%d\n", totalNodes(&root));
+
+            printf("MINIMUM NODE\n");
+            if (isEmpty(root)) {
+                printf("Tree is empty!\n\n");
+            } else {
+                node* minimumNode = minValueNode(root);
+                printf("%s\n\n", minimumNode->key);
+            }
+            
+            printf("TREE IS EMPTY?\n");
+            if (isEmpty(&root)) {
+                printf("Tree is empty!\n\n");
+            } else {
+                printf("Tree isn't empty!\n\n");
+            }
+
+            break;
+        
+        case 6:
             //QUIT
 
             printf("Quit.\n");
@@ -435,21 +461,7 @@ int main(int argc, char const *argv[]) {
 
     // removeNode(root, 2);
 
-    // printf("\n\nTREE HEIGHT\n");
-    // printf("%d\n", treeHeight(&root));
-
-    // printf("TOTAL NODES\n");
-    // printf("%d\n", totalNodes(&root));
-
-    // printf("MINIMUM NODE\n");
-    // node* minimumNode = minValueNode(root);
-    // printf("%d\n\n", minimumNode->data);
-
-    // if (isEmpty(&root)) {
-    //     printf("Tree is empty!\n\n");
-    // } else {
-    //     printf("Tree isn't empty!\n\n");
-    // }
+    
 
     // printf("FINDING ON TREE: (0) FALSE | (1) TRUE\n");
     // printf("%d (%d)\n", 16, find(root, 16));
