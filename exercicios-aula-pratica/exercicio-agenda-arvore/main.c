@@ -548,6 +548,54 @@ int removeNode(node** root, char* key) {
 	return res;
 }
 
+
+
+/*
+==============================
+    Red-Black Tree Functions
+==============================
+*/
+
+/*
+===================================
+color
+
+    return node color
+===================================
+*/
+int color(node* node) {
+    if (node == NULL) {
+        return BLACK;
+    } else {
+        return node->color;
+    }
+}
+
+/*
+===================================
+changeColor
+
+    change node color
+===================================
+*/
+void changeColor(node* node) {
+    node->color = !node->color;
+
+    if (node->pLeft != NULL) {
+        node->pLeft->color = !node->pLeft->color;
+    }
+    
+    if (node->pRight != NULL){
+        node->pRight->color = !node->pRight->color;
+    }
+}
+
+
+
+
+
+
+
 int main(int argc, char const *argv[]) {
     
     //---------------------------------------------------
