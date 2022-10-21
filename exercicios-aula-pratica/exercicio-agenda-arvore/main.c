@@ -3,6 +3,10 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+//Color definition for red-black tree
+#define RED 1
+#define BLACK 0
+
 typedef struct node {
     char *name;
     int age;
@@ -10,12 +14,23 @@ typedef struct node {
 
     char *key;
 
+    //for avl tree
     int height;
+    
+    //for red-black tree
+    int color;
 
     struct node* pLeft;
     struct node* pRight;
 
 } node;
+
+
+/*
+==============================
+    Global functions
+==============================
+*/
 
 /*
 ===================================
@@ -87,57 +102,6 @@ int totalNodes(node** root) {
 }
 
 /*
-===================================
-treeHeight
-
-    tree height
-===================================
-*/
-int treeHeight(node** root) {
-
-    node* rootPtr = *root;
-
-    if (root == NULL) return 0;
-
-    if (rootPtr == NULL) return 0;
-
-    int leftHeight = treeHeight(&rootPtr->pLeft);
-    int rightHeight = treeHeight(&rootPtr->pRight);
-
-    if (leftHeight > rightHeight) {
-        return leftHeight + 1;
-    } else {
-        return rightHeight + 1;
-    }
-}
-
-/*
-===================================
-nodeHeight
-
-    node height
-===================================
-*/
-int nodeHeight(node* node) {
-    if (node == NULL) {
-        return -1;
-    } else {
-        return node->height;
-    }    
-}
-
-/*
-===================================
-balanceFactor
-
-    balance factor
-===================================
-*/
-int balanceFactor(node* node) {
-    return labs(nodeHeight(node->pLeft) - nodeHeight(node->pRight));
-}
-
-/*
 ============================================
 greater
 
@@ -168,6 +132,32 @@ struct node* minValueNode(struct node* node) {
     }
         
     return current;
+}
+
+/*
+===================================
+find
+
+    find a node in the tree
+===================================
+*/
+node* find(node *root, char *key) {
+
+    if (root == NULL) return NULL;
+
+    if (strcmp(key, root->key) == 0) return root;
+
+    //less than the root value
+    if (strcmp(key, root->key) < 0) {
+        return find(root->pLeft, key);
+    } 
+
+    //greater than the root value
+    if (strcmp(key, root->key) > 0) {
+        return find(root->pRight, key);
+    }
+
+    return NULL;
 }
 
 /*
@@ -226,33 +216,114 @@ void postOrder(node* root) {
 
 /*
 ===================================
-find
+createNode
 
-    find a node in the tree
+    create a new node
 ===================================
 */
-node* find(node *root, char *key) {
+node* createNode(char name[], int age, char phone[], int key) {
 
-    if (root == NULL) return NULL;
+    node *newNode = malloc(sizeof(node));
 
-    if (strcmp(key, root->key) == 0) return root;
+    newNode->name = malloc(strlen(name));
+    newNode->phone = malloc(strlen(phone));
 
-    //less than the root value
-    if (strcmp(key, root->key) < 0) {
-        return find(root->pLeft, key);
-    } 
+    if (newNode != NULL) {
+        strcpy(newNode->name, name);
+        newNode->age = age;
+        strcpy(newNode->phone, phone);
 
-    //greater than the root value
-    if (strcmp(key, root->key) > 0) {
-        return find(root->pRight, key);
+        newNode->pLeft = NULL;
+        newNode->pRight = NULL;
+
+        newNode->height = 0;
+
+        //defining the key
+        if (key == 1) {
+            newNode->key = (char *) malloc(strlen(name));
+
+            strcpy(newNode->key, name);
+
+        } else if (key == 2) {
+            newNode->key = malloc(sizeof(age));
+
+            sprintf(newNode->key, "%d", age);
+
+        } else {
+            newNode->key = (char *) malloc(strlen(phone));
+
+            strcpy(newNode->key, phone);
+
+        }
     }
 
-    return NULL;
+    return newNode;
+}
+
+
+
+/*
+==============================
+    AVL Tree Functions
+==============================
+*/
+
+/*
+===================================
+treeHeight
+
+    tree height
+===================================
+*/
+int treeHeight(node** root) {
+
+    node* rootPtr = *root;
+
+    if (root == NULL) return 0;
+
+    if (rootPtr == NULL) return 0;
+
+    int leftHeight = treeHeight(&rootPtr->pLeft);
+    int rightHeight = treeHeight(&rootPtr->pRight);
+
+    if (leftHeight > rightHeight) {
+        return leftHeight + 1;
+    } else {
+        return rightHeight + 1;
+    }
 }
 
 /*
 ===================================
-ROTATIONS
+nodeHeight
+
+    node height
+===================================
+*/
+int nodeHeight(node* node) {
+    if (node == NULL) {
+        return -1;
+    } else {
+        return node->height;
+    }    
+}
+
+/*
+===================================
+balanceFactor
+
+    balance factor
+===================================
+*/
+int balanceFactor(node* node) {
+    return labs(nodeHeight(node->pLeft) - nodeHeight(node->pRight));
+}
+
+
+
+/*
+===================================
+    AVL Tree Rotations
 ===================================
 */
 
@@ -330,52 +401,6 @@ void rotationRL(node** root) {
     node* rootPtr = *root;
     rotationLL(&rootPtr->pRight);
     rotationRR(root);
-}
-
-/*
-===================================
-createNode
-
-    create a new node
-===================================
-*/
-node* createNode(char name[], int age, char phone[], int key) {
-
-    node *newNode = malloc(sizeof(node));
-
-    newNode->name = malloc(strlen(name));
-    newNode->phone = malloc(strlen(phone));
-
-    if (newNode != NULL) {
-        strcpy(newNode->name, name);
-        newNode->age = age;
-        strcpy(newNode->phone, phone);
-
-        newNode->pLeft = NULL;
-        newNode->pRight = NULL;
-
-        newNode->height = 0;
-
-        //defining the key
-        if (key == 1) {
-            newNode->key = (char *) malloc(strlen(name));
-
-            strcpy(newNode->key, name);
-
-        } else if (key == 2) {
-            newNode->key = malloc(sizeof(age));
-
-            sprintf(newNode->key, "%d", age);
-
-        } else {
-            newNode->key = (char *) malloc(strlen(phone));
-
-            strcpy(newNode->key, phone);
-
-        }
-    }
-
-    return newNode;
 }
 
 /*
