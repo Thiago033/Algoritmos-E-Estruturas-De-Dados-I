@@ -236,6 +236,7 @@ node* createNode(char name[], int age, char phone[], int key) {
         newNode->pLeft = NULL;
         newNode->pRight = NULL;
 
+        newNode->color = RED;
         newNode->height = 0;
 
         //defining the key
@@ -882,15 +883,11 @@ int removeRedBlackTree(node** root, char* key) {
     }
 }
 
-
-
-
-
-
-
-
-
-
+/*
+===================================
+        MAIN FUNCTION
+===================================
+*/
 int main(int argc, char const *argv[]) {
     
     //---------------------------------------------------
@@ -954,7 +951,7 @@ int main(int argc, char const *argv[]) {
     removeRedBlackTree(&root, "15");
 
     //======================= MANUAL INSERTS RED BLACK TREE =================
-    
+
 
     do {
         printf ("==========================\n");
