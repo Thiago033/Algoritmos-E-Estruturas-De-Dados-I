@@ -420,7 +420,7 @@ bool insertAvlTree(node** root, node* newNode) {
 
     node *rootPtr = *root;
 
-    //less or equal than the root value
+    //less than the root value
     if (strcmp(newNode->key, rootPtr->key) < 0) {
 
         if (insertAvlTree(&(rootPtr->pLeft), newNode)) {
@@ -709,10 +709,10 @@ insertNode
     insert a new node into the Red-Black tree
 =============================================
 */
-node* insertNodeRedBlackTree(node* node, int data, int* res) {
+node* insertNodeRedBlackTree(node* root, node* newNode, int* res) {
 
-    if (node == NULL) {
-        struct node* newNode = createNode(data);
+    if (root == NULL) {
+        //struct node* newNode = createNode(data);
 
         if (newNode == NULL) {
             *res = 0;
@@ -723,30 +723,30 @@ node* insertNodeRedBlackTree(node* node, int data, int* res) {
         return newNode;
     }
 
-    if (data == node->data) {
+    if (newNode->key == root->key) {
         *res = 0; //duplicated value
     } else {
-        if (data < node->data)
-        {
-            node->pLeft = insertNodeRedBlackTree(node->pLeft, data, res);
+        //less than the root value
+        if (strcmp(newNode->key, root->key) < 0) {
+            root->pLeft = insertNodeRedBlackTree(root->pLeft, newNode, res);
         } else {
-            node->pRight = insertNodeRedBlackTree(node->pRight, data, res);
+            root->pRight = insertNodeRedBlackTree(root->pRight, newNode, res);
         }
     }
 
-    if (color(node->pRight) == RED && color(node->pLeft) == BLACK) {
-        node = rotationLeft(node);
+    if (color(root->pRight) == RED && color(root->pLeft) == BLACK) {
+        root = rotationLeft(root);
     }
     
-    if (color(node->pLeft) == RED && color(node->pLeft->pLeft) == RED) {
-        node = rotationRight(node);
+    if (color(root->pLeft) == RED && color(root->pLeft->pLeft) == RED) {
+        root = rotationRight(root);
     }
 
-    if (color(node->pLeft) == RED && color(node->pRight) == RED) {
-        changeColor(node);
+    if (color(root->pLeft) == RED && color(root->pRight) == RED) {
+        changeColor(root);
     }
      
-    return node;
+    return root;
 }
 
 /*
@@ -756,12 +756,12 @@ insertRedBlackTree
     insert
 ===================================
 */
-int insertRedBlackTree(node** root, int data) {
+int insertRedBlackTree(node** root, node* newNode) {
     int res;
 
     //node* rootPtr = *root;
 
-    (*root) = insertNodeRedBlackTree(*root, data, &res);
+    (*root) = insertNodeRedBlackTree(*root, newNode, &res);
 
     if ((*root) != NULL) (*root)->color = BLACK;
 
@@ -800,22 +800,33 @@ int main(int argc, char const *argv[]) {
     } while (key < 1 || key > 3);
 
 
-    //================================= MANUAL INSERTS =================================
+    //======================= MANUAL INSERTS AVL TREE =======================
 
-    insertAvlTree(&root, createNode("a", 27, "an", key));
-    insertAvlTree(&root, createNode("b", 11, "bn", key));
-    insertAvlTree(&root, createNode("c", 19, "cn", key));
-    insertAvlTree(&root, createNode("d", 91, "dn", key));
-    insertAvlTree(&root, createNode("e", 90, "en", key));
-    insertAvlTree(&root, createNode("f", 72, "fn", key));
+    // insertAvlTree(&root, createNode("a", 27, "an", key));
+    // insertAvlTree(&root, createNode("b", 11, "bn", key));
+    // insertAvlTree(&root, createNode("c", 19, "cn", key));
+    // insertAvlTree(&root, createNode("d", 91, "dn", key));
+    // insertAvlTree(&root, createNode("e", 90, "en", key));
+    // insertAvlTree(&root, createNode("f", 72, "fn", key));
 
-    removeNodeAvlTree(&root, "11");
-    removeNodeAvlTree(&root, "72");
+    // removeNodeAvlTree(&root, "11");
+    // removeNodeAvlTree(&root, "72");
 
-    insertAvlTree(&root, createNode("g", 10, "gn", key));
-    insertAvlTree(&root, createNode("h", 93, "hn", key));
+    // insertAvlTree(&root, createNode("g", 10, "gn", key));
+    // insertAvlTree(&root, createNode("h", 93, "hn", key));
 
-    //================================= MANUAL INSERTS =================================
+    //======================= MANUAL INSERTS AVL TREE =======================
+
+
+
+
+    //======================= MANUAL INSERTS RED BLACK TREE =================
+
+    
+
+
+    //======================= MANUAL INSERTS RED BLACK TREE =================
+
 
     do {
         printf ("==========================\n");
