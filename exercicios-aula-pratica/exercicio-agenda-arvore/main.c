@@ -404,13 +404,13 @@ void rotationRL(node** root) {
 }
 
 /*
-===================================
-insert
+=========================================
+insertAvlTree
 
-    insert a new node into the tree
-===================================
+    insert a new node into the AVL tree
+=========================================
 */
-bool insert(node** root, node* newNode) {
+bool insertAvlTree(node** root, node* newNode) {
     int res;
 
     if (*root == NULL) {
@@ -423,7 +423,7 @@ bool insert(node** root, node* newNode) {
     //less or equal than the root value
     if (strcmp(newNode->key, rootPtr->key) < 0) {
 
-        if (insert(&(rootPtr->pLeft), newNode)) {
+        if (insertAvlTree(&(rootPtr->pLeft), newNode)) {
 
             if (balanceFactor(rootPtr) >= 2) {
 
@@ -441,7 +441,7 @@ bool insert(node** root, node* newNode) {
     //greater than the root value
     if (strcmp(newNode->key, rootPtr->key) > 0) {
         
-        if (insert(&(rootPtr->pRight), newNode)) {
+        if (insertAvlTree(&(rootPtr->pRight), newNode)) {
 
             if (balanceFactor(rootPtr) >= 2) {
 
@@ -462,12 +462,12 @@ bool insert(node** root, node* newNode) {
 
 /*
 =========================================
-removeNode
+removeNodeAvlTree
 
     remove a node
 =========================================
 */
-int removeNode(node** root, char* key) {
+int removeNodeAvlTree(node** root, char* key) {
 
     if (*root == NULL) {
         printf("This value doesn't exist!\n");
@@ -479,7 +479,7 @@ int removeNode(node** root, char* key) {
     //if(key < (*root)->key) {
     if (strcmp(key, (*root)->key) < 0) {    
 
-	    if((res = removeNode(&(*root)->pLeft,key)) == 1) {
+	    if((res = removeNodeAvlTree(&(*root)->pLeft,key)) == 1) {
 
             if(balanceFactor(*root) >= 2) {
                 if(nodeHeight((*root)->pRight->pLeft) <= nodeHeight((*root)->pRight->pRight)) {
@@ -494,7 +494,7 @@ int removeNode(node** root, char* key) {
 	//if((*root)->key < key) {
     if (strcmp((*root)->key, key) < 0) { 
 
-	    if((res = removeNode(&(*root)->pRight, key)) == 1) {
+	    if((res = removeNodeAvlTree(&(*root)->pRight, key)) == 1) {
 
             if(balanceFactor(*root) >= 2) {
                 if(nodeHeight((*root)->pLeft->pRight) <= nodeHeight((*root)->pLeft->pLeft) ) {
@@ -527,7 +527,7 @@ int removeNode(node** root, char* key) {
 
 			(*root)->key = temp->key;
 
-			removeNode(&(*root)->pRight, (*root)->key);
+			removeNodeAvlTree(&(*root)->pRight, (*root)->key);
 
             if(balanceFactor(*root) >= 2){
 				if(nodeHeight((*root)->pLeft->pRight) <= nodeHeight((*root)->pLeft->pLeft)) {
@@ -702,7 +702,71 @@ node* balance(node* node) {
     return node;
 }
 
+/*
+=============================================
+insertNode
 
+    insert a new node into the Red-Black tree
+=============================================
+*/
+node* insertNode(node* node, int data, int* res) {
+
+    if (node == NULL) {
+        struct node* newNode = createNode(data);
+
+        if (newNode == NULL) {
+            *res = 0;
+            return NULL;
+        }
+
+        *res = 1;
+        return newNode;
+    }
+
+    if (data == node->data) {
+        *res = 0; //duplicated value
+    } else {
+        if (data < node->data)
+        {
+            node->pLeft = insertNode(node->pLeft, data, res);
+        } else {
+            node->pRight = insertNode(node->pRight, data, res);
+        }
+    }
+
+    if (color(node->pRight) == RED && color(node->pLeft) == BLACK) {
+        node = rotationLeft(node);
+    }
+    
+    if (color(node->pLeft) == RED && color(node->pLeft->pLeft) == RED) {
+        node = rotationRight(node);
+    }
+
+    if (color(node->pLeft) == RED && color(node->pRight) == RED) {
+        changeColor(node);
+    }
+     
+    return node;
+}
+
+/*
+===================================
+insert
+
+    insert
+===================================
+*/
+int insert(node** root, int data) {
+    int res;
+
+    //node* rootPtr = *root;
+
+    (*root) = insertNode(*root, data, &res);
+
+    if ((*root) != NULL) (*root)->color = BLACK;
+
+    return res;
+}
 
 int main(int argc, char const *argv[]) {
     
@@ -738,18 +802,18 @@ int main(int argc, char const *argv[]) {
 
     //================================= MANUAL INSERTS =================================
 
-    insert(&root, createNode("a", 27, "an", key));
-    insert(&root, createNode("b", 11, "bn", key));
-    insert(&root, createNode("c", 19, "cn", key));
-    insert(&root, createNode("d", 91, "dn", key));
-    insert(&root, createNode("e", 90, "en", key));
-    insert(&root, createNode("f", 72, "fn", key));
+    insertAvlTree(&root, createNode("a", 27, "an", key));
+    insertAvlTree(&root, createNode("b", 11, "bn", key));
+    insertAvlTree(&root, createNode("c", 19, "cn", key));
+    insertAvlTree(&root, createNode("d", 91, "dn", key));
+    insertAvlTree(&root, createNode("e", 90, "en", key));
+    insertAvlTree(&root, createNode("f", 72, "fn", key));
 
-    removeNode(&root, "11");
-    removeNode(&root, "72");
+    removeNodeAvlTree(&root, "11");
+    removeNodeAvlTree(&root, "72");
 
-    insert(&root, createNode("g", 10, "gn", key));
-    insert(&root, createNode("h", 93, "hn", key));
+    insertAvlTree(&root, createNode("g", 10, "gn", key));
+    insertAvlTree(&root, createNode("h", 93, "hn", key));
 
     //================================= MANUAL INSERTS =================================
 
@@ -792,7 +856,7 @@ int main(int argc, char const *argv[]) {
             printf("Type the key: \n");
             scanf("%s", searchKey);
 
-            if (removeNode(&root, searchKey)) {
+            if (removeNodeAvlTree(&root, searchKey)) {
                 printf("Data removed!\n");
             } else {
                 printf("Data not founded!\n");
