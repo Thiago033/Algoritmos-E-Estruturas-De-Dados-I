@@ -592,7 +592,33 @@ void changeColor(node* node) {
 
 /*
 ===================================
-    AVL Tree Rotations
+searchNode
+
+    search node
+===================================
+*/
+int searchNode(node** raiz, char* key){
+    if(raiz == NULL)
+        return 0;
+
+    struct node* atual = *raiz;
+
+    while(atual != NULL){
+
+        if(strcmp(key, atual->key) == 0){
+            return 1;
+        }
+        if(strcmp(key, atual->key) > 0)
+            atual = atual->pRight;
+        else
+            atual = atual->pLeft;
+    }
+    return 0;
+}
+
+/*
+===================================
+    Red-Black Tree Rotations
 ===================================
 */
 
@@ -768,6 +794,103 @@ int insertRedBlackTree(node** root, node* newNode) {
     return res;
 }
 
+/*
+===================================
+removeMinimum
+
+    removeMinimum
+===================================
+*/
+struct node* removeMinimum(struct node* node){
+
+    if(node->pLeft == NULL){
+        free(node);
+        return NULL;
+    }
+
+    if(color(node->pLeft) == BLACK && color(node->pLeft->pLeft) == BLACK){
+        node = moveToLeftRed(node);
+    }
+
+    node->pLeft = removeMinimum(node->pLeft);
+
+    return balance(node);
+}
+
+/*
+===================================
+removeNodeRedBlackTree
+
+    remove node on red-black tree
+===================================
+*/
+node* removeNodeRedBlackTree(node* root, char* key) {
+    if (strcmp(key, root->key) < 0) {
+        if (color(root->pLeft) == BLACK && color(root->pLeft->pLeft) == BLACK ) {
+            root = moveToLeftRed(root);
+        }
+
+        root->pLeft = removeNodeRedBlackTree(root->pLeft, key);
+    } else {
+        if (color(root->pLeft) == RED) {
+            root = rotationRight(root);
+        }
+
+        //if (key == root->key && (root->pRight == NULL)) {
+        if (strcmp(key, root->key) == 0 && (root->pRight == NULL)) {
+            free(root);
+            return NULL;
+        }
+
+        if (color(root->pRight) == BLACK && color(root->pRight->pLeft) == BLACK) {
+            root = moveToRightRed(root);
+        }
+
+        if (strcmp(key, root->key) == 0) {
+            struct node* rootPtr = minValueNode(root->pRight);
+            root->key = rootPtr->key;
+            root->pRight = removeMinimum(root->pRight);
+        } else {
+            root->pRight = removeNodeRedBlackTree(root->pRight, key);
+        }
+    }
+
+    return balance(root);
+}
+
+/*
+===================================
+remove
+
+    remove
+===================================
+*/
+int removeRedBlackTree(node** root, char* key) {
+    if(searchNode(root, key)) {
+        node* node = *root;
+
+        *root = removeNodeRedBlackTree(node, key);
+
+        if (*root != NULL) {
+            (*root)->color = BLACK;
+        }
+
+        return 1;
+
+    } else {
+        return 0;
+    }
+}
+
+
+
+
+
+
+
+
+
+
 int main(int argc, char const *argv[]) {
     
     //---------------------------------------------------
@@ -818,15 +941,20 @@ int main(int argc, char const *argv[]) {
     //======================= MANUAL INSERTS AVL TREE =======================
 
 
-
-
     //======================= MANUAL INSERTS RED BLACK TREE =================
 
+    insertRedBlackTree(&root, createNode("a", 50, "an", key));
+    insertRedBlackTree(&root, createNode("b", 21, "bn", key));
+    insertRedBlackTree(&root, createNode("c", 85, "cn", key));
+    insertRedBlackTree(&root, createNode("d", 70, "cn", key));
+    insertRedBlackTree(&root, createNode("e", 20, "cn", key));
+    insertRedBlackTree(&root, createNode("f", 30, "cn", key));
+    insertRedBlackTree(&root, createNode("g", 15, "cn", key));
+
+    removeRedBlackTree(&root, "15");
+
+    //======================= MANUAL INSERTS RED BLACK TREE =================
     
-
-
-    //======================= MANUAL INSERTS RED BLACK TREE =================
-
 
     do {
         printf ("==========================\n");
@@ -844,15 +972,15 @@ int main(int argc, char const *argv[]) {
         case 1:
             //INSERT
 
-            // printf("Insert data:    \n");
-            // printf("Name:           \n");
-            // scanf("%s", name           );
-            // printf("Age:            \n");
-            // scanf("%d", &age           );
-            // printf("Phone number:   \n");
-            // scanf("%s", phone          );
+            printf("Insert data:    \n");
+            printf("Name:           \n");
+            scanf("%s", name           );
+            printf("Age:            \n");
+            scanf("%d", &age           );
+            printf("Phone number:   \n");
+            scanf("%s", phone          );
         
-            // insert(&root, createNode(name, age, phone, key));
+            //insert(&root, createNode(name, age, phone, key));
 
             break;
         
