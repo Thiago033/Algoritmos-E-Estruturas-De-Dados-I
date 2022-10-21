@@ -678,6 +678,29 @@ node* moveToRightRed(node* node) {
     return node;
 }
 
+/*
+===================================
+balance
+
+    balance tree
+===================================
+*/
+node* balance(node* node) {
+
+    if (color(node->pRight) == RED) {
+        node = rotationLeft(node);
+    }
+
+    if (node->pLeft != NULL && color(node->pLeft) == RED && color(node->pLeft->pLeft) == RED) {
+        node = rotationRight(node);
+    }
+    
+    if (color(node->pLeft) == RED && color(node->pRight) == RED) {
+        changeColor(node);
+    }
+    
+    return node;
+}
 
 
 
