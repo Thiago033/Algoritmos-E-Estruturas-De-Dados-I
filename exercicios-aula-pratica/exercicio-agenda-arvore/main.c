@@ -709,7 +709,7 @@ insertNode
     insert a new node into the Red-Black tree
 =============================================
 */
-node* insertNode(node* node, int data, int* res) {
+node* insertNodeRedBlackTree(node* node, int data, int* res) {
 
     if (node == NULL) {
         struct node* newNode = createNode(data);
@@ -728,9 +728,9 @@ node* insertNode(node* node, int data, int* res) {
     } else {
         if (data < node->data)
         {
-            node->pLeft = insertNode(node->pLeft, data, res);
+            node->pLeft = insertNodeRedBlackTree(node->pLeft, data, res);
         } else {
-            node->pRight = insertNode(node->pRight, data, res);
+            node->pRight = insertNodeRedBlackTree(node->pRight, data, res);
         }
     }
 
@@ -751,17 +751,17 @@ node* insertNode(node* node, int data, int* res) {
 
 /*
 ===================================
-insert
+insertRedBlackTree
 
     insert
 ===================================
 */
-int insert(node** root, int data) {
+int insertRedBlackTree(node** root, int data) {
     int res;
 
     //node* rootPtr = *root;
 
-    (*root) = insertNode(*root, data, &res);
+    (*root) = insertNodeRedBlackTree(*root, data, &res);
 
     if ((*root) != NULL) (*root)->color = BLACK;
 
