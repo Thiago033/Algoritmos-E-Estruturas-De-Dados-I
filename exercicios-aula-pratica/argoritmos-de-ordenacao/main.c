@@ -4,9 +4,9 @@
 #include <math.h>
 
 /*
-===
+==================
 Merge Sort
-==
+==================
 */
 int merge(int array[], int low, int mid, int high) {
 
@@ -63,9 +63,9 @@ void mergeSort(int *array, int low, int high) {
 }
 
 /*
-===
+==================
 Quick Sort
-==
+==================
 */
 int partition(int array[], int low, int high) {
     int left, right, pivot, aux;
@@ -109,9 +109,9 @@ void quickSort(int *array, int low, int high) {
 }
 
 /*
-===
+==================
 Selection Sort
-==
+==================
 */
 void selectionSort(int *array, int size) {
     int i,j, smaller, swap;
