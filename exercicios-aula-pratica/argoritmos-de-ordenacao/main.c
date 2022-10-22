@@ -220,8 +220,7 @@ int main () {
             break;
         
         case 5:
-            printf("Quit.\n");
-            return 0;
+            printf("Quit.\n\n");
             break;
         
         default:
@@ -229,14 +228,20 @@ int main () {
             break;
         }
 
+        option = 6;
 
     } while (option != 6);
-    
-    isSorted(array, size) ? printf("Array sorted!\n") : printf("Error!\nArray not sorted!\n");
+
+    //printing array
+    printf("==========================\n");
 
     printArray(array, size);
-    
+
+    isSorted(array, size) ? printf("\nArray sorted!\n") : printf("\nError!\nArray not sorted!\n");
+
+    printf("==========================\n");
+
     free(array);
 
-   return(0);
+   return 0;
 }
