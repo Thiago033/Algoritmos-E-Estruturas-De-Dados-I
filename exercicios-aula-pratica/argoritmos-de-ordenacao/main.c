@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <time.h>
 
 /*
 ==================
@@ -134,6 +135,25 @@ void selectionSort(int *array, int size) {
     }
 }
 
+/*
+==================
+Insertion Sort
+==================
+*/
+void insertionSort(int *array, int size) {
+    int i, j, aux;
+
+    for (i = i; i < size; i++) {
+        aux = array[i];
+
+        for (j = i; (j > 0) && (aux < array[j - 1]); j--) {
+            array[j] = array[j - 1];
+        }
+
+        array[j] = aux;
+    }
+}
+
 void printArray(int arr[], int size)
 {
     int i;
@@ -144,13 +164,24 @@ void printArray(int arr[], int size)
 
 int main () {
 
-    int array[] = {64, 25, 12, 22, 11};
+    int size;
+    time_t t1 = time(NULL);
 
-    int size = sizeof(array) / sizeof(array[0]);
+    printf("Type the size of the array: \n");
+    scanf("%d", &size);
 
-    selectionSort(array, size);
+    int* array = (int  *) malloc(sizeof(int) * size);
+
+    //define the random number generator 
+    srand(t1);
+
+    for (int i = 0; i < size; i++) {
+        array[i] = rand() % 100;
+    }
 
     printArray(array, size);
-   
+    
+    free(array);
+
    return(0);
 }
