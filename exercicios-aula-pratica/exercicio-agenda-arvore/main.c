@@ -902,7 +902,7 @@ int main(int argc, char const *argv[]) {
     root = NULL;
     //---------------------------------------------------
 
-    int option, key;
+    int option, key, treeType, res;
 
 	int age;
     char name[30], phone[20], searchKey[30];
@@ -918,6 +918,26 @@ int main(int argc, char const *argv[]) {
         printf ("Key: ");
         scanf ("%d", &key);
     } while (key < 1 || key > 3);
+
+    //defining tree type
+    do
+    {
+        printf ("==========================\n");
+        printf ("1 - AVL Tree              \n");
+        printf ("2 - Red-Black Tree        \n");
+        printf ("==========================\n");
+        printf ("Key: ");
+        scanf ("%d", &option);
+    } while (option < 1 || option > 2);
+
+    if (option == 1) {
+        //tree type = AVL Tree
+        treeType = 1;
+    } else {
+        //tree type = Red-Black Tree
+        treeType = 0;
+    }
+    
 
 
     //======================= MANUAL INSERTS AVL TREE =======================
@@ -940,15 +960,15 @@ int main(int argc, char const *argv[]) {
 
     //======================= MANUAL INSERTS RED BLACK TREE =================
 
-    insertRedBlackTree(&root, createNode("a", 50, "an", key));
-    insertRedBlackTree(&root, createNode("b", 21, "bn", key));
-    insertRedBlackTree(&root, createNode("c", 85, "cn", key));
-    insertRedBlackTree(&root, createNode("d", 70, "cn", key));
-    insertRedBlackTree(&root, createNode("e", 20, "cn", key));
-    insertRedBlackTree(&root, createNode("f", 30, "cn", key));
-    insertRedBlackTree(&root, createNode("g", 15, "cn", key));
+    // insertRedBlackTree(&root, createNode("a", 50, "an", key));
+    // insertRedBlackTree(&root, createNode("b", 21, "bn", key));
+    // insertRedBlackTree(&root, createNode("c", 85, "cn", key));
+    // insertRedBlackTree(&root, createNode("d", 70, "cn", key));
+    // insertRedBlackTree(&root, createNode("e", 20, "cn", key));
+    // insertRedBlackTree(&root, createNode("f", 30, "cn", key));
+    // insertRedBlackTree(&root, createNode("g", 15, "cn", key));
 
-    removeRedBlackTree(&root, "15");
+    // removeRedBlackTree(&root, "15");
 
     //======================= MANUAL INSERTS RED BLACK TREE =================
 
@@ -976,11 +996,15 @@ int main(int argc, char const *argv[]) {
             scanf("%d", &age           );
             printf("Phone number:   \n");
             scanf("%s", phone          );
-        
-            //insert(&root, createNode(name, age, phone, key));
+
+            if (treeType) {
+                insertAvlTree(&root, createNode(name, age, phone, key));
+            } else {
+                insertRedBlackTree(&root, createNode(name, age, phone, key));
+            }
 
             break;
-        
+
         case 2:
             //DELETE
 
@@ -992,12 +1016,18 @@ int main(int argc, char const *argv[]) {
             printf("Type the key: \n");
             scanf("%s", searchKey);
 
-            if (removeNodeAvlTree(&root, searchKey)) {
+            if (treeType) {
+                res = removeNodeAvlTree(&root, searchKey);
+            } else {
+                res = removeRedBlackTree(&root, searchKey);
+            }
+            
+            if (res) {
                 printf("Data removed!\n");
             } else {
                 printf("Data not founded!\n");
             }
-			
+            	
             break;
 
         case 3:
@@ -1056,7 +1086,7 @@ int main(int argc, char const *argv[]) {
 
             if (searchNode != NULL) {
                 printf("==========================\n");
-                printf("Data founded:\n");
+                printf("Data founded:\n\n");
                 printf("Name: %s\n", searchNode->name);
                 printf("Age: %d\n", searchNode->age);
                 printf("Phone: %s\n", searchNode->phone);
