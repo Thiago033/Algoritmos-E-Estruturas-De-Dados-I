@@ -162,6 +162,17 @@ void printArray(int arr[], int size)
     printf("\n");
 }
 
+int isSorted(int* array, int size){
+    int i;
+
+    for(i = 0; i < size-1; i++){
+
+        if(array[i] > array[i+1]) return 0;
+    }
+
+    return 1;
+}
+
 int main () {
 
     int size;
@@ -178,6 +189,8 @@ int main () {
     for (int i = 0; i < size; i++) {
         array[i] = rand() % 100;
     }
+
+    if (!isSorted(array, size)) printf("Error!\nArray not sorted!\n");
 
     printArray(array, size);
     
