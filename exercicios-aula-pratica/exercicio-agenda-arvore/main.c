@@ -1134,7 +1134,7 @@ int main(int argc, char const *argv[]) {
             break;
         }
 
-    } while (option != 0);
+    } while (option != 6);
 
     return 0;
 }

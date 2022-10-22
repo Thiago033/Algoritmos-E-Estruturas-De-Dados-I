@@ -175,7 +175,7 @@ int isSorted(int* array, int size){
 
 int main () {
 
-    int size;
+    int size, option;
     time_t t1 = time(NULL);
 
     printf("Type the size of the array: \n");
@@ -190,7 +190,49 @@ int main () {
         array[i] = rand() % 100;
     }
 
-    if (!isSorted(array, size)) printf("Error!\nArray not sorted!\n");
+    do {
+        printf ("==========================\n");
+        printf("Select the sort method:    \n");
+        printf("1) Insertion Sort          \n");
+        printf("2) Selection Sort          \n");
+        printf("3) Quick Sort              \n");
+        printf("4) Merge Sort              \n");
+        printf("5) Quit                    \n");
+        printf ("==========================\n");
+        scanf("%d", &option);
+
+        switch (option)
+        {
+        case 1:
+            insertionSort(array, size);
+            break;
+        
+        case 2:
+            selectionSort(array, size);
+            break;
+        
+        case 3:
+            quickSort(array, 0, size-1);
+            break;
+
+        case 4:
+            mergeSort(array, 0, size-1);
+            break;
+        
+        case 5:
+            printf("Quit.\n");
+            return 0;
+            break;
+        
+        default:
+            printf("Invalid option! try again!\n");
+            break;
+        }
+
+
+    } while (option != 6);
+    
+    isSorted(array, size) ? printf("Array sorted!\n") : printf("Error!\nArray not sorted!\n");
 
     printArray(array, size);
     
