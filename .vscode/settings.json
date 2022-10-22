@@ -1,7 +1,9 @@
 {
     "files.associations": {
         "*.ejs": "html",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "cstdlib": "c",
+        "initializer_list": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

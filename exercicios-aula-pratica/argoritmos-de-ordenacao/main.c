@@ -174,9 +174,11 @@ int isSorted(int* array, int size){
 }
 
 int main () {
-
     int size, option;
+
     time_t t1 = time(NULL);
+
+    struct timespec begin, end; 
 
     printf("Type the size of the array: \n");
     scanf("%d", &size);
@@ -200,6 +202,8 @@ int main () {
         printf("5) Quit                    \n");
         printf ("==========================\n");
         scanf("%d", &option);
+
+        clock_gettime(CLOCK_REALTIME, &begin);
 
         switch (option)
         {
@@ -230,17 +234,26 @@ int main () {
 
         option = 6;
 
+        clock_gettime(CLOCK_REALTIME, &end);
+
     } while (option != 6);
 
+    //measuring time
+    long seconds = end.tv_sec - begin.tv_sec;
+    long nanoseconds = end.tv_nsec - begin.tv_nsec;
+    double elapsed = seconds + nanoseconds*1e-9;
+    
     //printing array
     printf("==========================\n");
-
-    printArray(array, size);
+   
+    //printArray(array, size);
 
     isSorted(array, size) ? printf("\nArray sorted!\n") : printf("\nError!\nArray not sorted!\n");
 
-    printf("==========================\n");
+    printf("Time measured: %f seconds.\n", elapsed);
 
+    printf("==========================\n");
+    
     free(array);
 
    return 0;
