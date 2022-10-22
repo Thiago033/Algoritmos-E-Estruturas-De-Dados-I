@@ -1,6 +1,57 @@
 #include <stdio.h>
 #include <string.h>
 
+/*
+===
+Quick Sort
+==
+*/
+int partition(int array[], int low, int high) {
+    int left, right, pivot, aux;
+
+    left = low;
+    right = high;
+
+    pivot = array[low];
+
+    while (left < right) {
+
+        while (array[left] <= pivot) {
+            left++;
+        }
+
+        while (array[right] > pivot) {
+            right--;
+        }
+
+        if (left < right) {
+            aux = array[left];
+            array[left] = array[right];
+            array[right] = aux;
+        }
+    }
+
+    array[low] = array[right];
+    array[right] = pivot;
+
+    return right;
+}
+
+void quickSort(int *array, int low, int high) {
+
+    if (low < high) {
+        int pivot = partition(array, low, high);
+
+        quickSort(array, low , pivot - 1);
+        quickSort(array, pivot + 1, high);
+    }
+}
+
+/*
+===
+Selection Sort
+==
+*/
 void selectionSort(int *array, int size) {
     int i,j, smaller, swap;
 
