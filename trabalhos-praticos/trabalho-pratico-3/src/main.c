@@ -12,38 +12,6 @@ typedef struct node {
 } node;
 
 /*
-===================================
-freeNode
-
-    free node
-===================================
-*/
-void freeNode(node* node) {
-    if (node == NULL) return;
-
-    freeNode(node->pLeft);
-    freeNode(node->pRight);
-    free(node);
-
-    node = NULL;
-}
-
-/*
-===================================
-freeTree
-
-    free tree
-===================================
-*/
-void freeTree(node** root) {
-    if (root == NULL) return;
-
-    freeNode(*root);
-
-    free(root);    
-}
-
-/*
 ================================================
 greater
 
@@ -56,6 +24,49 @@ int greater(int x, int y) {
     } else {
         return y;
     }
+}
+
+/*
+===================================
+freeNode
+
+    free node
+===================================
+*/
+void freeNode(node* node) {
+    if (node == NULL) return;
+    freeNode(node->pLeft);
+    freeNode(node->pRight);
+    free(node);
+    node = NULL;
+}
+
+/*
+===================================
+freeTree
+
+    free tree
+===================================
+*/
+void freeTree(node** root) {
+    if (root == NULL) return;
+    freeNode(*root);
+    free(root);    
+}
+
+/*
+=======================
+inOrder
+
+    print tree in order
+=======================
+*/
+void inOrder(node* root) {
+    if (root == NULL) return;
+
+    inOrder(root->pLeft);
+    printf("%d, ", root->data);
+    inOrder(root->pRight);
 }
 
 /*
@@ -149,21 +160,6 @@ int insertNode(node** root, int data) {
     return 1;
 }
 
-/*
-=======================
-inOrder
-
-    print tree in order
-=======================
-*/
-void inOrder(node* root) {
-    if (root == NULL) return;
-
-    inOrder(root->pLeft);
-    printf("%d, ", root->data);
-    inOrder(root->pRight);
-}
-
 int main(int argc, char const *argv[]) {
 
     //------------------------------------------------
@@ -199,7 +195,7 @@ int main(int argc, char const *argv[]) {
             printf(isAvlTree ? "É uma arvore AVL!\n" : "Não é uma arvore AVL!\n");
             printf("Saindo.");
 
-
+            freeTree(&root);
 
             exit(1);
             break;
