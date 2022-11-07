@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+bool isAvlTree = true;
+
 typedef struct node {
     int data;
     int height;
@@ -10,70 +12,45 @@ typedef struct node {
 } node;
 
 /*
-======================================================
-greaterAndMinorValues
+================================================
+greater
 
-    returns the greater and minor of two passed values
-======================================================
+    return the greater value between two numbers
+================================================
 */
-void greaterAndMinorValues(int x, int y, int* greaterValue, int* minorValue) {
+int greater(int x, int y) {
     if (x > y) {
-        *greaterValue = x;
-        *minorValue = y;
+        return x;
     } else {
-        *greaterValue = y;
-        *minorValue = x;
+        return y;
     }
 }
 
 /*
-==================================
-treeHeight
+========================================
+nodeHeight
 
-    returns the height of the tree
-==================================
+    return height the of the node passed
+    if node is NULL, return -1
+========================================
 */
-int treeHeight(node** root) {
-    node* rootPtr = *root;
-    if (root == NULL) return 0;
-    if (rootPtr == NULL) return 0;
-
-
-    int leftHeight = treeHeight(&rootPtr->pLeft);
-    int rightHeight = treeHeight(&rootPtr->pRight);
-
-    if (leftHeight > rightHeight) {
-        return (leftHeight + 1);
+int nodeHeight(node* node) {
+    if (node == NULL) {
+        return -1;
     } else {
-        return (rightHeight + 1);
-    }
+        return node->height;
+    } 
 }
 
-
 /*
-============================================
-checkAvlTree
+=======================================
+balanceFactor
 
-    checks if the passed tree is an AVL tree
-    returns true or false    
-============================================
+    return the balance factor of a node
+=======================================
 */
-bool checkAvlTree(node** root){
-
-    node* rootPtr = *root;
-
-    int leftHeight = treeHeight(&rootPtr->pLeft);
-    int rightHeight = treeHeight(&rootPtr->pRight);
-    
-    int greater, minor;
-
-    greaterAndMinorValues(leftHeight, rightHeight, &greater, &minor);
-
-    if ((greater - minor) >= 2) {
-        return false;
-    } else {
-        return true;
-    }
+int balanceFactor(node* node) {
+    return labs(nodeHeight(node->pLeft) - nodeHeight(node->pRight));
 }
 
 /*
@@ -88,7 +65,7 @@ node* createNode(int data){
 
     if (nodePtr != NULL) {
         nodePtr->data = data;
-        nodePtr->height = 1;
+        nodePtr->height = 0;
         nodePtr->pLeft = NULL;
         nodePtr->pRight = NULL;
     }
@@ -97,39 +74,62 @@ node* createNode(int data){
 }
 
 /*
-=========================
-insertNode
-    insert a node on tree
-=========================
+===================================
+insert
+
+    insert a new node into the tree
+===================================
 */
-bool insertNode(node** root, int data) {
+int insertNode(node** root, int data) {
 
     if (*root == NULL) {
         *root = createNode(data);
         return true;
     }
 
-    node* rootPtr = *root;
+    node *rootPtr = *root;
 
-    //duplicated data
-    if (data == rootPtr->data) {
-        printf("\nValor duplicado!");
-        return false;
-    }
-
-    //insert left
     if (data < rootPtr->data) {
-        return insertNode(&(rootPtr)->pLeft, data);
-        //verificar insercao
+
+        if (insertNode(&rootPtr->pLeft, data)) {
+
+            if (balanceFactor(rootPtr) >= 2) {
+                isAvlTree = false;
+            }
+        }
+    } else {
+        if (data > rootPtr->data) {
+
+            if (insertNode(&rootPtr->pRight, data)) {
+
+                if (balanceFactor(rootPtr) >= 2) {
+                    isAvlTree = false;
+                }
+            }
+        } else {
+            printf("Duplicated value!");
+            return 0;
+        }
     }
 
-    //insert right
-    if (data > rootPtr->data) {
-        return insertNode(&(rootPtr)->pRight, data);
-        //verificar insercao
-    }
+    rootPtr->height = greater(nodeHeight(rootPtr->pLeft), nodeHeight(rootPtr->pRight)) + 1;
 
-    return true;
+    return 1;
+}
+
+/*
+=======================
+inOrder
+
+    print tree in order
+=======================
+*/
+void inOrder(node* root) {
+    if (root == NULL) return;
+
+    inOrder(root->pLeft);
+    printf("%d, ", root->data);
+    inOrder(root->pRight);
 }
 
 int main(int argc, char const *argv[]) {
@@ -145,7 +145,7 @@ int main(int argc, char const *argv[]) {
 
     root = NULL;
     //------------------------------------------------
-
+    
     int option, value;
 
     do {
@@ -164,9 +164,7 @@ int main(int argc, char const *argv[]) {
             break;
 
         case 0:
-
-            checkAvlTree(&root) ? printf("Eh uma arvore AVL!\n") : printf("Nao eh uma arvore AVL!\n");
-
+            printf(isAvlTree ? "É uma arvore AVL!\n" : "Não é uma arvore AVL!\n");
             printf("Saindo.");
             exit(1);
             break;
