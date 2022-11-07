@@ -12,6 +12,38 @@ typedef struct node {
 } node;
 
 /*
+===================================
+freeNode
+
+    free node
+===================================
+*/
+void freeNode(node* node) {
+    if (node == NULL) return;
+
+    freeNode(node->pLeft);
+    freeNode(node->pRight);
+    free(node);
+
+    node = NULL;
+}
+
+/*
+===================================
+freeTree
+
+    free tree
+===================================
+*/
+void freeTree(node** root) {
+    if (root == NULL) return;
+
+    freeNode(*root);
+
+    free(root);    
+}
+
+/*
 ================================================
 greater
 
@@ -166,6 +198,9 @@ int main(int argc, char const *argv[]) {
         case 0:
             printf(isAvlTree ? "É uma arvore AVL!\n" : "Não é uma arvore AVL!\n");
             printf("Saindo.");
+
+
+
             exit(1);
             break;
 
