@@ -12,6 +12,19 @@ typedef struct node {
 } node;
 
 /*
+====================================
+Print tree
+====================================
+*/
+void inOrder(node* root){
+    if (root == NULL) return;
+
+    inOrder(root->pLeft);
+    printf("%d ", root->data);
+    inOrder(root->pRight);
+}
+
+/*
 ================================================
 greater
 
@@ -52,21 +65,6 @@ void freeTree(node** root) {
     if (root == NULL) return;
     freeNode(*root);
     free(root);    
-}
-
-/*
-=======================
-inOrder
-
-    print tree in order
-=======================
-*/
-void inOrder(node* root) {
-    if (root == NULL) return;
-
-    inOrder(root->pLeft);
-    printf("%d, ", root->data);
-    inOrder(root->pRight);
 }
 
 /*
@@ -123,7 +121,7 @@ insert
     insert a new node into the tree
 ===================================
 */
-int insertNode(node** root, int data) {
+bool insertNode(node** root, int data) {
 
     if (*root == NULL) {
         *root = createNode(data);
@@ -151,13 +149,13 @@ int insertNode(node** root, int data) {
             }
         } else {
             printf("Duplicated value!");
-            return 0;
+            return false;
         }
     }
 
     rootPtr->height = greater(nodeHeight(rootPtr->pLeft), nodeHeight(rootPtr->pRight)) + 1;
 
-    return 1;
+    return true;
 }
 
 int main(int argc, char const *argv[]) {
