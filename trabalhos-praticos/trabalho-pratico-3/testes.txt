@@ -1,0 +1,13 @@
+inserts: 33, 53, 9, 8, 21, 61, 11
+retorn: true - é uma arvore avl
+
+inserts: 100, 50, 150, 25, 75, 125, 175, 65, 85
+retorn: true - é uma arvore avl
+
+-----------------------------------------
+
+inserts: 10, 5, 20, 3, 2, 1
+retorn: false - não é uma arvore avl
+
+inserts: 3, 1, 4, 2, 6, 5
+retorn: false - não é uma arvore avl
