@@ -1,36 +1,27 @@
 #include <stdio.h>
 #include <string.h>
 
-void selectionSort(int* array, int size) {
-    int i, j, smaller, swap;
+void insertionSort(int array[], int size){
+    int i, key, j;
 
-    for (i = 0; i < size - 1; i++) {
+    for (i = 1; i < size; i++) {
 
-        smaller = i;
+        key = array[i];
+        j = i - 1;
+ 
+        while (j >= 0 && array[j] > key) {
 
-        for (j = i + 1; j < size; j++) {
-
-            if (array[j] < array[smaller]) {
-                smaller = j;
-            }
+            array[j + 1] = array[j];
+            j = j - 1;
         }
 
-        if (i != smaller) {
-            swap = array[i];
-            array[i] = array[smaller];
-            array[smaller] = swap;
-        }
+        array[j + 1] = key;
     }
 }
 
 int checkArray(int* array, int size) {
-
-    // 0, 1, 3
-
     for (int i = 0; i < size; i++) {
-        if ((array[i] + 1) == array[i + 1]) {
-            printf("Check!");
-        } else {
+        if (!((array[i] + 1) == array[i + 1])) {
             return array[i] + 1;
         }
     }
@@ -43,20 +34,18 @@ void printArray(int* array, int size) {
 }
 
 int main() {
-    
-
     int nums[] = {9,6,4,2,3,5,7,0,1};
     int size = sizeof(nums) / sizeof(nums[0]);
 
     printf("Original array: \n");
     printArray(nums, size);
 
-    selectionSort(nums, size);
+    insertionSort(nums, size);
 
     printf("Sorted array: \n");
     printArray(nums, size);
 
-    printf("%d", checkArray(nums, size));
+    printf("Missing number in sequence: %d", checkArray(nums, size));
 
     return 0;
 }
