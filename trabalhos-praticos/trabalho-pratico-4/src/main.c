@@ -1,23 +1,48 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-void insertionSort(int array[], int size){
-    int i, j, key;
+int partition(int array[], int low, int high) {
+    int left, right, pivot, aux;
 
-    for (i = 1; i < size; i++) {
+    left = low;
+    right = high;
 
-        key = array[i];
-        j = i - 1;
- 
-        while (j >= 0 && array[j] > key) {
+    pivot = array[low];
 
-            array[j + 1] = array[j];
-            j = j - 1;
+    while (left < right) {
+
+        while (array[left] <= pivot) {
+            left++;
         }
 
-        array[j + 1] = key;
+        while (array[right] > pivot) {
+            right--;
+        }
+
+        if (left < right) {
+            aux = array[left];
+            array[left] = array[right];
+            array[right] = aux;
+        }
+    }
+
+    array[low] = array[right];
+    array[right] = pivot;
+
+    return right;
+}
+
+void quickSort(int *array, int low, int high) {
+
+    if (low < high) {
+        int pivot = partition(array, low, high);
+
+        quickSort(array, low , pivot - 1);
+        quickSort(array, pivot + 1, high);
     }
 }
 
+// 0 2 3
 int checkArray(int* array, int size) {
     for (int i = 0; i < size; i++) {
         if (!((array[i] + 1) == array[i + 1])) {
@@ -28,23 +53,35 @@ int checkArray(int* array, int size) {
 
 void printArray(int* array, int size) {
     for (int i = 0; i < size; i++)
-        printf("%d, ", array[i]);
+        printf("%d ", array[i]);
     printf("\n");
 }
 
 int main() {
-    int nums[] = {9,6,4,2,3,5,7,0,1};
-    int size = sizeof(nums) / sizeof(nums[0]);
+    int *nums, size, i, digit;
+
+    printf("Digite o tamanho do vetor:\n");
+    scanf("%d", &size);
+
+    nums = (int*)malloc(sizeof(int)*size);
+
+    for(i = 0; i < size; i++) {
+        printf("Digite um numero inteiro:\n");
+        scanf("%d", &digit);
+        *(nums+i) = digit;
+    }
 
     printf("\nOriginal array:\n");
     printArray(nums, size);
 
-    insertionSort(nums, size);
+    quickSort(nums, 0, size-1);
 
     printf("\nSorted array:\n");
     printArray(nums, size);
 
     printf("\nMissing number in sequence: %d\n", checkArray(nums, size));
+
+    free(nums);
 
     return 0;
 }
