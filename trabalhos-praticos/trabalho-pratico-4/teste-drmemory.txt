@@ -1,0 +1,32 @@
+~~Dr.M~~ Dr. Memory version 2.5.0
+~~Dr.M~~ Running "C:\Repositorio\Algoritmos-E-Estruturas-De-Dados-I\trabalhos-praticos\trabalho-pratico-4\src\main.exe"
+~~Dr.M~~ Using system call file C:\Users\thiag\AppData\Roaming\Dr. Memory\symcache\syscalls_x64.txt
+~~Dr.M~~
+~~Dr.M~~ Error #1: UNADDRESSABLE ACCESS beyond top of stack: reading 0x000000cdf9dff2d0-0x000000cdf9dff2d8 8 byte(s)
+~~Dr.M~~ # 0 .text                                   [../../../gcc-10.3.0/libgcc/config/i386/cygwin.S:132]
+~~Dr.M~~ # 1 _pei386_runtime_relocator               [C:/_/M/mingw-w64-crt-git/src/mingw-w64/mingw-w64-crt/crt/pseudo-reloc.c:477]
+~~Dr.M~~ # 2 __tmainCRTStartup                       [C:/_/M/mingw-w64-crt-git/src/mingw-w64/mingw-w64-crt/crt/crtexe.c:269]
+~~Dr.M~~ # 3 .l_start                                [C:/_/M/mingw-w64-crt-git/src/mingw-w64/mingw-w64-crt/crt/crtexe.c:202]
+~~Dr.M~~ # 4 KERNEL32.dll!BaseThreadInitThunk       +0x13     (0x00007ffc40ae74b4 <KERNEL32.dll+0x174b4>)
+~~Dr.M~~ Note: @0:00:00.287 in thread 11528
+~~Dr.M~~ Note: 0x000000cdf9dff2d0 refers to 744 byte(s) beyond the top of the stack 0x000000cdf9dff5b8
+~~Dr.M~~ Note: instruction: or     $0x0000000000000000 (%rcx) -> (%rcx)
+Digite o tamanho do vetor:
+~~Dr.M~~
+~~Dr.M~~ Error #2: UNADDRESSABLE ACCESS beyond top of stack: reading 0x000000cdf9dfe5a0-0x000000cdf9dfe5a8 8 byte(s)
+~~Dr.M~~ # 0 .text                         [../../../gcc-10.3.0/libgcc/config/i386/cygwin.S:126]
+~~Dr.M~~ # 1 __mingw_vfscanf               [C:/_/M/mingw-w64-crt-git/src/mingw-w64/mingw-w64-crt/stdio/mingw_vfscanf.c:1616]
+~~Dr.M~~ # 2 scanf                         [C:/_/M/mingw-w64-crt-git/src/mingw-w64/mingw-w64-crt/crt/crtexe.c:420]
+~~Dr.M~~ # 3 main                          [C:/_/M/mingw-w64-crt-git/src/mingw-w64/mingw-w64-crt/crt/crtexe.c:420]
+~~Dr.M~~ Note: @0:00:00.351 in thread 11528
+~~Dr.M~~ Note: 0x000000cdf9dfe5a0 refers to 4072 byte(s) beyond the top of the stack 0x000000cdf9dff588
+~~Dr.M~~ Note: instruction: or     $0x0000000000000000 (%rcx) -> (%rcx)
+~~Dr.M~~
+~~Dr.M~~ Error #3: UNADDRESSABLE ACCESS beyond top of stack: reading 0x000000cdf9dfe560-0x000000cdf9dfe568 8 byte(s)
+~~Dr.M~~ # 0 .text                         [../../../gcc-10.3.0/libgcc/config/i386/cygwin.S:132]
+~~Dr.M~~ # 1 __mingw_vfscanf               [C:/_/M/mingw-w64-crt-git/src/mingw-w64/mingw-w64-crt/stdio/mingw_vfscanf.c:1616]
+~~Dr.M~~ # 2 scanf                         [C:/_/M/mingw-w64-crt-git/src/mingw-w64/mingw-w64-crt/crt/crtexe.c:420]
+~~Dr.M~~ # 3 main                          [C:/_/M/mingw-w64-crt-git/src/mingw-w64/mingw-w64-crt/crt/crtexe.c:420]
+~~Dr.M~~ Note: @0:00:00.353 in thread 11528
+~~Dr.M~~ Note: 0x000000cdf9dfe560 refers to 4136 byte(s) beyond the top of the stack 0x000000cdf9dff588
+~~Dr.M~~ Note: instruction: or     $0x0000000000000000 (%rcx) -> (%rcx)
