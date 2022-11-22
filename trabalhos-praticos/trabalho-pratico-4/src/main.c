@@ -42,7 +42,7 @@ void quickSort(int *array, int low, int high) {
     }
 }
 
-// 0 2 3
+// 0 "1" 2 3
 int checkArray(int* array, int size) {
     for (int i = 0; i < size; i++) {
         if (!((array[i] + 1) == array[i + 1])) {
